@@ -2,13 +2,13 @@
 from pathlib import Path
 
 from nwb_conversion_tools.utils import load_dict_from_file, dict_deep_update
-from fee_lab_to_nwb.ophys import OphysDatasetNWBConverter
+from fee_lab_to_nwb.scherrer_ophys import ScherrerOphysDatasetNWBConverter
 
 example_path = Path("D:/ExampleNWBConversion")
 example_session_id = example_path.stem
 nwbfile_path = example_path / f"{example_session_id}.nwb"
 
-metadata_path = Path(__file__) / "fee_lab_metadata.yaml"
+metadata_path = Path(__file__) / "scherrer_ophys_metadata.yaml"
 metadata_from_yaml = load_dict_from_file(metadata_path)
 
 source_data = dict(
@@ -18,7 +18,7 @@ source_data = dict(
     Behavior=dict(),
 )
 
-ophys_dataset_converter = OphysDatasetNWBConverter(source_data=source_data)
+ophys_dataset_converter = ScherrerOphysDatasetNWBConverter(source_data=source_data)
 
 metadata = ophys_dataset_converter.get_metadata()
 metadata = dict_deep_update(metadata, metadata_from_yaml)

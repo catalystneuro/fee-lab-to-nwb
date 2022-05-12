@@ -2,7 +2,7 @@
 from nwb_conversion_tools.basedatainterface import BaseDataInterface
 
 
-class OphysBehaviorInterface(BaseDataInterface):
+class ScherrerOphysBehaviorInterface(BaseDataInterface):
     """My behavior interface specific to the ecephys experiments."""
 
     def __init__(self):
