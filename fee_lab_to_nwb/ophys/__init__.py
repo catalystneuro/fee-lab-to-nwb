@@ -1,2 +1,2 @@
 from .ophysbehaviorinterface import OphysBehaviorInterface
-from .ophysdatasetnwbconverter import OphysDatasetNWBConverter
+from .ophysdatasetnwbconverter import ScherrerOphysNWBConverter
