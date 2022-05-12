@@ -13,8 +13,5 @@ class ScherrerOphysNWBConverter(NWBConverter):
     """Primary conversion class for my extracellular electrophysiology dataset."""
 
     data_interface_classes = dict(
-        #Recording=SpikeGLXRecordingInterface,
-        #LFP=SpikeGLXLFPInterface,
-        #Sorting=PhySortingInterface,
         Behavior=OphysBehaviorInterface,
     )
