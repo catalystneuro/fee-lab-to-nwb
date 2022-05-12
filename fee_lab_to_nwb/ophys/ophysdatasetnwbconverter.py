@@ -6,7 +6,7 @@ from nwb_conversion_tools import (
     PhySortingInterface,
 )
 
-from fee_lab_to_nwb.ophysbehaviorinterface import OphysBehaviorInterface
+from fee_lab_to_nwb.ophys import OphysBehaviorInterface
 
 
 class OphysDatasetNWBConverter(NWBConverter):
