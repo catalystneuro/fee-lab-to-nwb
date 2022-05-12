@@ -1,8 +1,8 @@
 """Primary class defining conversion of experiment-specific behavior."""
-from nwb_conversion_tools import BaseDataInterface
+from nwb_conversion_tools.basedatainterface import BaseDataInterface
 
 
-class MyEcephysBehaviorInterface(BaseRecordingExtractorInterface):
+class ScherrerOphysBehaviorInterface(BaseDataInterface):
     """My behavior interface specific to the ecephys experiments."""
 
     def __init__(self):

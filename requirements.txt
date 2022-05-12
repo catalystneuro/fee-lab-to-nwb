@@ -1,1 +1,2 @@
+nwb-conversion-tools==0.11.1
 nwbinspector
