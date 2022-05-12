@@ -6,15 +6,15 @@ from nwb_conversion_tools import (
     PhySortingInterface,
 )
 
-from my_lab_to_nwb.my_ecephys_dataset import MyEcephysBehaviorInterface
+from fee_lab_to_nwb.ophysbehaviorinterface import OphysBehaviorInterface
 
 
-class MyEcephysDatasetNWBConverter(NWBConverter):
+class OphysDatasetNWBConverter(NWBConverter):
     """Primary conversion class for my extracellular electrophysiology dataset."""
 
     data_interface_classes = dict(
-        Recording=SpikeGLXRecordingInterface,
-        LFP=SpikeGLXLFPInterface,
-        Sorting=PhySortingInterface,
-        Behavior=MyEcephysBehaviorInterface,
+        #Recording=SpikeGLXRecordingInterface,
+        #LFP=SpikeGLXLFPInterface,
+        #Sorting=PhySortingInterface,
+        Behavior=OphysBehaviorInterface,
     )
