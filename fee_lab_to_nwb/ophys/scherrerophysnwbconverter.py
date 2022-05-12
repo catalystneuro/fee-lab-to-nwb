@@ -9,7 +9,7 @@ from nwb_conversion_tools import (
 from fee_lab_to_nwb.ophys import OphysBehaviorInterface
 
 
-class OphysDatasetNWBConverter(NWBConverter):
+class ScherrerOphysNWBConverter(NWBConverter):
     """Primary conversion class for my extracellular electrophysiology dataset."""
 
     data_interface_classes = dict(
