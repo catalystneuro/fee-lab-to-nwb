@@ -45,7 +45,6 @@ class ScherrerOphysBehaviorInterface(BaseDataInterface):
 
         metadata = dict(
             NWBFile=dict(
-                identifier=str(uuid.uuid4()),
                 session_start_time=str(session_start_time),
             )
         )
