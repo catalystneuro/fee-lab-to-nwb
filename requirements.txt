@@ -1,2 +1,3 @@
 nwb-conversion-tools==0.11.1
 nwbinspector
+ndx-events==0.2.0
