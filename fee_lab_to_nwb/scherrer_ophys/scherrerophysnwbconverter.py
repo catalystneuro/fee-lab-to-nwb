@@ -4,6 +4,7 @@ from nwb_conversion_tools import (
     SpikeGLXRecordingInterface,
     SpikeGLXLFPInterface,
     PhySortingInterface,
+    MovieInterface,
 )
 
 from fee_lab_to_nwb.scherrer_ophys import ScherrerOphysBehaviorInterface
@@ -14,4 +15,5 @@ class ScherrerOphysNWBConverter(NWBConverter):
 
     data_interface_classes = dict(
         Behavior=ScherrerOphysBehaviorInterface,
+        Movie=MovieInterface,
     )

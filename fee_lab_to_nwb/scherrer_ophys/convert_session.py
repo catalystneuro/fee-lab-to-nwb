@@ -20,6 +20,7 @@ source_data = dict(
             ophys_dataset_path / "home_pos-speed-in_2021-06-03T11_46_29.csv"
         )
     ),
+    Movie=dict(file_paths=[ophys_dataset_path / "home_arena_2021-06-03T11_46_29.avi"]),
 )
 
 ophys_dataset_converter = ScherrerOphysNWBConverter(source_data=source_data)
