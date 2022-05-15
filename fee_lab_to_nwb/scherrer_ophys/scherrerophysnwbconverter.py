@@ -7,13 +7,10 @@ from nwb_conversion_tools import (
     MovieInterface,
 )
 
-from fee_lab_to_nwb.scherrer_ophys import ScherrerOphysBehaviorInterface
-
 
 class ScherrerOphysNWBConverter(NWBConverter):
     """Primary conversion class for my extracellular electrophysiology dataset."""
 
     data_interface_classes = dict(
-        Behavior=ScherrerOphysBehaviorInterface,
         Movie=MovieInterface,
     )
