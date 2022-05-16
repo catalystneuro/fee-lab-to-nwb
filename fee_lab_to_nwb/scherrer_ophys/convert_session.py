@@ -21,6 +21,7 @@ behavior_data_file_path = (
 behavior_movie_file_path = (
     ophys_dataset_path / f"home_arena_{ophys_dataset_timestamp}.avi"
 )
+behavior_movie_description = "Behavior video of animal moving in environment at ~30 fps"
 
 metadata_path = Path(__file__).parent / "scherrer_ophys_metadata.yml"
 metadata_from_yaml = load_dict_from_file(metadata_path)
@@ -52,6 +53,10 @@ metadata["NWBFile"].update(
 
 ophys_dataset_converter.run_conversion(
     metadata=metadata, nwbfile_path=nwbfile_path, conversion_options=conversion_options
+)
+
+metadata["Behavior"]["Movies"][0].update(
+    description=behavior_movie_description,
 )
 
 # Make sure that the behavior movie file is in the same folder as the NWB file
