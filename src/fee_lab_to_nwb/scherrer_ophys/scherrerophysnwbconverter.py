@@ -9,7 +9,7 @@ from nwb_conversion_tools import (
 
 
 class ScherrerOphysNWBConverter(NWBConverter):
-    """Primary conversion class for my extracellular electrophysiology dataset."""
+    """Primary conversion class for the optical imaging data of the Fee lab."""
 
     data_interface_classes = dict(
         Movie=MovieInterface,
