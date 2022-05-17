@@ -1,15 +1,9 @@
 NWBFile:
-  related_publications: >
-    One of the following formats:
-    DOI: ####
-    https://doi.org/### link
-    APA or MLA citation of the publication
   session_description: >
     A rich text description of the experiment. Can also just be the abstract of the publication.
-  institution: My Institution
-  lab: My Lab
+  institution: Massachusetts Institute of Technology
+  lab: Fee Lab
   experimenter:
-    - Last, First Middle
-    - Last, First Middle
+    - Scherrer, Joseph
 Subject:
   species: Rattus norvegicus
