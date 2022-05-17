@@ -27,9 +27,6 @@ metadata_path = Path(__file__).parent / "scherrer_ophys_metadata.yml"
 metadata_from_yaml = load_dict_from_file(metadata_path)
 
 source_data = dict(
-    # Recording=dict(),
-    # LFP=dict(),
-    # Sorting=dict(),
     Movie=dict(file_paths=[behavior_movie_file_path]),
 )
 
