@@ -8,20 +8,20 @@ from nwb_conversion_tools.utils import load_dict_from_file, dict_deep_update
 from fee_lab_to_nwb.scherrer_ophys import ScherrerOphysNWBConverter
 from utils import get_timestamps_from_csv
 
-# The base folder path for ophys and behavior data
+# The base folder path for ophys data
 ophys_dataset_path = Path("../../scherrer_ophys_data/")
 ophys_dataset_timestamp = "2021-06-03T11_46_29"
+# The name of the NWB file
+nwb_file_name = ophys_dataset_path.stem + "_" + ophys_dataset_timestamp
 
-ophys_dataset_session_id = ophys_dataset_path.stem + "_" + ophys_dataset_timestamp
-nwbfile_path = ophys_dataset_path / f"{ophys_dataset_session_id}.nwb"
 
-behavior_data_file_path = (
-    ophys_dataset_path / f"home_pos-speed-in_{ophys_dataset_timestamp}.csv"
-)
-behavior_movie_file_path = (
-    ophys_dataset_path / f"home_arena_{ophys_dataset_timestamp}.avi"
-)
+behavior_data_file_path = Path(f"./home_pos-speed-in_{ophys_dataset_timestamp}.csv")
+behavior_movie_file_path = Path(f"./home_arena_{ophys_dataset_timestamp}.avi")
+# Add a description for the behavior video
 behavior_movie_description = "Behavior video of animal moving in environment at ~30 fps"
+
+# The NWB file should be adjacent to the behavior movie file
+nwbfile_path = behavior_movie_file_path.parent / f"{nwb_file_name}.nwb"
 
 metadata_path = Path(__file__).parent / "scherrer_ophys_metadata.yml"
 metadata_from_yaml = load_dict_from_file(metadata_path)
@@ -61,6 +61,6 @@ metadata["Behavior"]["Movies"][0].update(
 
 # Make sure that the behavior movie file is in the same folder as the NWB file
 assert all(
-    file in list(ophys_dataset_path.iterdir())
+    file in list(behavior_movie_file_path.parent.iterdir())
     for file in [nwbfile_path, behavior_movie_file_path]
 )
