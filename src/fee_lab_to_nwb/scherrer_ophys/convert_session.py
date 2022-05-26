@@ -20,6 +20,11 @@ behavior_movie_file_path = Path(f"./home_arena_{ophys_dataset_timestamp}.avi")
 # Add a description for the behavior video
 behavior_movie_description = "Behavior video of animal moving in environment at ~30 fps"
 
+imaging_file_paths = [
+    f for f in ophys_dataset_path.iterdir() if str(f.stem).startswith("invivo")
+]
+
+
 # The NWB file should be adjacent to the behavior movie file
 nwbfile_path = behavior_movie_file_path.parent / f"{nwb_file_name}.nwb"
 
@@ -28,6 +33,7 @@ metadata_from_yaml = load_dict_from_file(metadata_path)
 
 source_data = dict(
     Movie=dict(file_paths=[behavior_movie_file_path]),
+    Imaging=dict(file_path=str(imaging_file_paths[0])),
 )
 
 timestamps = get_timestamps_from_csv(file_path=behavior_data_file_path)
