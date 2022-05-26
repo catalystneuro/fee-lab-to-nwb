@@ -1,5 +1,6 @@
 from typing import Tuple
 
+import numpy as np
 from nwb_conversion_tools.datainterfaces.behavior.movie.movie_utils import (
     VideoCaptureContext,
     HAVE_OPENCV,
@@ -32,9 +33,11 @@ class ScherrerOphysImagingExtractor(ImagingExtractor):
     def get_frames(self, frame_idxs: ArrayType, channel: int = 0) -> NumpyArray:
         with self.video_capture_context as vc:
             rgb_frame = vc.get_movie_frame(frame_number=frame_idxs[0])
+            # Make components of RGB565
+            green_color_data = (rgb_frame[..., 1] >> 2).astype(np.uint16) << 5
+            blue_color_data = (rgb_frame[..., 2] >> 3).astype(np.uint16)
             # Apply custom conversion to frames : G * 8 + B / 8
-            gray_frame = (rgb_frame[..., 1] * 8) + (rgb_frame[..., 2] / 8)
-            gray_frame = gray_frame.astype("uint16")
+            gray_frame = (green_color_data * 8) + (blue_color_data / 8)
 
         return gray_frame.T
 
