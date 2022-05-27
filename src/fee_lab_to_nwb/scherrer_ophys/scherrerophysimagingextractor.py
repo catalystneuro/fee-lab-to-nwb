@@ -33,11 +33,13 @@ class ScherrerOphysImagingExtractor(ImagingExtractor):
     def get_frames(self, frame_idxs: ArrayType, channel: int = 0) -> NumpyArray:
         with self.video_capture_context as vc:
             rgb_frame = vc.get_movie_frame(frame_number=frame_idxs[0])
-            # Make components of RGB565
+            # Convert from RGB888 to RGB565 to get green and blue correct values
             green_color_data = (rgb_frame[..., 1] >> 2).astype(np.uint16) << 5
             blue_color_data = (rgb_frame[..., 2] >> 3).astype(np.uint16)
-            # Apply custom conversion to frames : G * 8 + B / 8
+            # Apply custom conversion to frames : green * 8 + blue / 8
             gray_frame = (green_color_data * 8) + (blue_color_data / 8)
+            # Cast frame back to uint16
+            gray_frame = gray_frame.astype(np.uint16)
 
         return gray_frame.T
 
