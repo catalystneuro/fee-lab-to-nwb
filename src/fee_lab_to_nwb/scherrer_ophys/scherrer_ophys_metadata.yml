@@ -1,9 +1,16 @@
 NWBFile:
-  session_description: >
-    A rich text description of the experiment. Can also just be the abstract of the publication.
+  session_description: Mouse exploring
   institution: Massachusetts Institute of Technology
   lab: Fee Lab
   experimenter:
     - Scherrer, Joseph
+  virus: GCaMP7f
+  surgery: >
+    4mm glass window implant over right visual and somatosensory cortex
 Subject:
-  species: Rattus norvegicus
+  subject_id: 4mm mouse 1
+  genotype: C57/B6
+  species: Mus musculus
+  sex: M
+  age: P3M # 3 months in ISO 8601 duration format
+  description: ~20 virus injections in layer 2/3 of cortex
