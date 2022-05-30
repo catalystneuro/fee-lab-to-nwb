@@ -1,6 +1,8 @@
 from typing import Optional
 
-from nwb_conversion_tools.basedatainterface import BaseDataInterface
+from nwb_conversion_tools.datainterfaces.ophys.baseimagingextractorinterface import (
+    BaseImagingExtractorInterface,
+)
 from nwb_conversion_tools.tools.roiextractors import write_imaging
 from nwb_conversion_tools.utils import OptionalFilePathType
 from pynwb import NWBFile
@@ -10,7 +12,7 @@ from fee_lab_to_nwb.scherrer_ophys.scherrerophysimagingextractor import (
 )
 
 
-class ScherrerOphysImagingExtractorInterface(BaseDataInterface):
+class ScherrerOphysImagingExtractorInterface(BaseImagingExtractorInterface):
     IX = ScherrerOphysImagingExtractor
 
     def __init__(self, file_path: str):
