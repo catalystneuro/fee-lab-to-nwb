@@ -26,7 +26,7 @@ class ScherrerOphysImagingExtractor(ImagingExtractor):
         with self.video_capture_context as vc:
             self._num_frames = vc.get_movie_frame_count()
             self._image_size = vc.get_frame_shape()
-            self._fps = vc.get_movie_fps()
+            self._sampling_frequency = vc.get_movie_fps()
 
     def get_frames(self, frame_idxs: ArrayType, channel: int = 0) -> NumpyArray:
         with self.video_capture_context as vc:
@@ -48,7 +48,7 @@ class ScherrerOphysImagingExtractor(ImagingExtractor):
         return self._num_frames
 
     def get_sampling_frequency(self) -> float:
-        return self._fps
+        return self._sampling_frequency
 
     def get_channel_names(self) -> list:
         return self._channel_names
