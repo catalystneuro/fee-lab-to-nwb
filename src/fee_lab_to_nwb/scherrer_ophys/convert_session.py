@@ -33,7 +33,7 @@ metadata_from_yaml = load_dict_from_file(metadata_path)
 
 source_data = dict(
     Movie=dict(file_paths=[behavior_movie_file_path]),
-    Imaging=dict(file_path=str(imaging_file_paths[0])),
+    Ophys=dict(file_path=str(imaging_file_paths[0])),
 )
 
 timestamps = get_timestamps_from_csv(file_path=behavior_data_file_path)
@@ -54,12 +54,12 @@ metadata["NWBFile"].update(
     session_id=ophys_dataset_timestamp,
 )
 
-ophys_dataset_converter.run_conversion(
-    metadata=metadata, nwbfile_path=nwbfile_path, conversion_options=conversion_options
-)
-
 metadata["Behavior"]["Movies"][0].update(
     description=behavior_movie_description,
+)
+
+ophys_dataset_converter.run_conversion(
+    metadata=metadata, nwbfile_path=nwbfile_path, conversion_options=conversion_options
 )
 
 # Make sure that the behavior movie file is in the same folder as the NWB file

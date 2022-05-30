@@ -14,5 +14,5 @@ class ScherrerOphysNWBConverter(NWBConverter):
 
     data_interface_classes = dict(
         Movie=MovieInterface,
-        Imaging=ScherrerOphysImagingExtractorInterface,
+        Ophys=ScherrerOphysImagingExtractorInterface,
     )
