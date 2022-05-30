@@ -14,3 +14,7 @@ Subject:
   sex: M
   age: P3M # 3 months in ISO 8601 duration format
   description: ~20 virus injections in layer 2/3 of cortex
+Ophys:
+  TwoPhotonSeries:
+    - name: TwoPhotonSeries
+      description: Calcium imaging data at ~30 fps in grayscale format
