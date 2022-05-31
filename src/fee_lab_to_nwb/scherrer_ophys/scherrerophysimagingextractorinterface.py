@@ -20,20 +20,6 @@ class ScherrerOphysImagingExtractorInterface(BaseImagingExtractorInterface):
         self.imaging_extractor = self.IX(file_path=file_path)
         self.verbose = True
 
-    def get_metadata(self):
-        metadata = super().get_metadata()
-
-        # Add missing properties for Ophys metadata
-        ophys_metadata = metadata["Ophys"]
-        device_name = ophys_metadata["Device"][0]["name"]
-        imaging_plane = ophys_metadata["ImagingPlane"][0]["name"]
-        if "device" not in ophys_metadata["ImagingPlane"][0].keys():
-            ophys_metadata["ImagingPlane"][0]["device"] = device_name
-        if "imaging_plane" not in ophys_metadata["TwoPhotonSeries"][0].keys():
-            ophys_metadata["TwoPhotonSeries"][0]["imaging_plane"] = imaging_plane
-
-        return metadata
-
     def run_conversion(
         self,
         nwbfile_path: OptionalFilePathType = None,
