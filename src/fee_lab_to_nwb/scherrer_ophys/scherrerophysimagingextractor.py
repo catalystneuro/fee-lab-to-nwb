@@ -29,8 +29,10 @@ class ScherrerOphysImagingExtractor(ImagingExtractor):
             self._sampling_frequency = vc.get_movie_fps()
 
     def get_frames(self, frame_idxs: ArrayType, channel: int = 0) -> NumpyArray:
-        with self.video_capture_context as vc:
-            rgb_frame = vc.get_movie_frame(frame_number=frame_idxs[0])
+        frames = []
+        for frame_index in frame_idxs:
+            with self.video_capture_context as vc:
+                rgb_frame = vc.get_movie_frame(frame_number=frame_index)
             # Convert from RGB888 to RGB565 to get green and blue correct values
             green_color_data = (rgb_frame[..., 1] >> 2).astype(np.uint16) << 5
             blue_color_data = (rgb_frame[..., 2] >> 3).astype(np.uint16)
@@ -38,8 +40,13 @@ class ScherrerOphysImagingExtractor(ImagingExtractor):
             gray_frame = (green_color_data * 8) + (blue_color_data / 8)
             # Cast frame back to uint16
             gray_frame = gray_frame.astype(np.uint16)
+            # Transpose frame to maintain original orientation after conversion
+            gray_frame = gray_frame.T
 
-        return gray_frame.T
+            frames.append(gray_frame[np.newaxis, ...])
+
+        concatenated_frames = np.concatenate(frames, axis=0).squeeze()
+        return concatenated_frames
 
     def get_image_size(self) -> Tuple:
         return self._image_size
