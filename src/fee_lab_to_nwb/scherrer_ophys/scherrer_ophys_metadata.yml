@@ -18,3 +18,4 @@ Ophys:
   TwoPhotonSeries:
     - name: TwoPhotonSeries
       description: Calcium imaging data at ~30 fps in grayscale format
+      unit: Frames
