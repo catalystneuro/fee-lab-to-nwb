@@ -33,12 +33,12 @@ class ScherrerOphysImagingExtractor(ImagingExtractor):
         for frame_index in frame_idxs:
             with self.video_capture_context as vc:
                 rgb_frame = vc.get_movie_frame(frame_number=frame_index)
-            # Convert from RGB888 to RGB565 to get green and blue correct values
-            green_color_data = (rgb_frame[..., 1] >> 2).astype(np.uint16) << 5
-            blue_color_data = (rgb_frame[..., 2] >> 3).astype(np.uint16)
+
+            # Cast values from uint8 to uint16
+            green_color_data = rgb_frame[..., 1].astype(np.uint16)
+            blue_color_data = rgb_frame[..., 2].astype(np.uint16)
             # Apply custom conversion to frames : green * 8 + blue / 8
             gray_frame = (green_color_data * 8) + (blue_color_data / 8)
-            # Cast frame back to uint16
             gray_frame = gray_frame.astype(np.uint16)
             # Transpose frame to maintain original orientation after conversion
             gray_frame = gray_frame.T
