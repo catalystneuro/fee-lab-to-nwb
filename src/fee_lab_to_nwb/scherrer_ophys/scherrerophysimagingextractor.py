@@ -40,8 +40,6 @@ class ScherrerOphysImagingExtractor(ImagingExtractor):
             # Apply custom conversion to frames : green * 8 + blue / 8
             gray_frame = (green_color_data * 8) + (blue_color_data / 8)
             gray_frame = gray_frame.astype(np.uint16)
-            # Transpose frame to maintain original orientation after conversion
-            gray_frame = gray_frame.T
 
             frames.append(gray_frame[np.newaxis, ...])
 
