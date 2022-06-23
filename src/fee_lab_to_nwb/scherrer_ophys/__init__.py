@@ -1,1 +1,2 @@
 from .scherrerophysnwbconverter import ScherrerOphysNWBConverter
+from .scherrerophysimagingextractor import ScherrerOphysImagingExtractor

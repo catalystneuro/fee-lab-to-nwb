@@ -5,7 +5,10 @@ from zoneinfo import ZoneInfo
 
 from nwb_conversion_tools.utils import load_dict_from_file, dict_deep_update
 
-from fee_lab_to_nwb.scherrer_ophys import ScherrerOphysNWBConverter
+from fee_lab_to_nwb.scherrer_ophys import (
+    ScherrerOphysNWBConverter,
+    ScherrerOphysImagingExtractor,
+)
 from utils import get_timestamps_from_csv
 
 # The base folder path for ophys data
@@ -20,10 +23,12 @@ behavior_movie_file_path = Path(f"./home_arena_{ophys_dataset_timestamp}.avi")
 # Add a description for the behavior video
 behavior_movie_description = "Behavior video of animal moving in environment at ~30 fps"
 
-imaging_file_paths = [
-    f for f in ophys_dataset_path.iterdir() if str(f.stem).startswith("invivo")
+ophys_file_paths = [
+    ophys_file_name
+    for ophys_file_name in ophys_dataset_path.iterdir()
+    if ophys_file_name.suffix == ".avi"
 ]
-
+ophys_timestamp_file_path = ophys_dataset_path / f"invivo_{ophys_dataset_timestamp}.csv"
 
 # The NWB file should be adjacent to the behavior movie file
 nwbfile_path = behavior_movie_file_path.parent / f"{nwb_file_name}.nwb"
@@ -31,9 +36,13 @@ nwbfile_path = behavior_movie_file_path.parent / f"{nwb_file_name}.nwb"
 metadata_path = Path(__file__).parent / "scherrer_ophys_metadata.yml"
 metadata_from_yaml = load_dict_from_file(metadata_path)
 
+imaging_extractors = [
+    ScherrerOphysImagingExtractor(file_path=file_path) for file_path in ophys_file_paths
+]
+ophys_timestamps = get_timestamps_from_csv(file_path=ophys_timestamp_file_path)
 source_data = dict(
     Movie=dict(file_paths=[behavior_movie_file_path]),
-    Ophys=dict(file_path=str(imaging_file_paths[0])),
+    Ophys=dict(imaging_extractors=imaging_extractors, timestamps=ophys_timestamps),
 )
 
 timestamps = get_timestamps_from_csv(file_path=behavior_data_file_path)
