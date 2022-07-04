@@ -21,5 +21,5 @@ class ScherrerOphysImagingExtractorInterface(BaseImagingExtractorInterface):
         self.imaging_extractor = self.IX(imaging_extractors=imaging_extractors)
         if not calculate_regular_series_rate(timestamps):
             # only use timestamps if they are not regular
-            self.imaging_extractor.set_times(times=timestamps[:3000])
+            self.imaging_extractor.set_times(times=timestamps)
         self.verbose = verbose
