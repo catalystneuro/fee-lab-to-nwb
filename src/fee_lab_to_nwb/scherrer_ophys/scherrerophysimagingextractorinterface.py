@@ -1,39 +1,28 @@
-from typing import Optional
-
 from nwb_conversion_tools.datainterfaces.ophys.baseimagingextractorinterface import (
     BaseImagingExtractorInterface,
 )
-from nwb_conversion_tools.tools.roiextractors import write_imaging
-from nwb_conversion_tools.utils import OptionalFilePathType
-from pynwb import NWBFile
+from nwb_conversion_tools.utils import calculate_regular_series_rate
+from roiextractors.multiimagingextractor import MultiImagingExtractor
 
 from fee_lab_to_nwb.scherrer_ophys.scherrerophysimagingextractor import (
     ScherrerOphysImagingExtractor,
 )
+from fee_lab_to_nwb.scherrer_ophys.utils import get_timestamps_from_csv
 
 
 class ScherrerOphysImagingExtractorInterface(BaseImagingExtractorInterface):
-    IX = ScherrerOphysImagingExtractor
+    IX = MultiImagingExtractor
 
-    def __init__(self, file_path: str):
-        super().__init__(file_path=file_path)
-        self.imaging_extractor = self.IX(file_path=file_path)
-        self.verbose = True
-
-    def run_conversion(
-        self,
-        nwbfile_path: OptionalFilePathType = None,
-        nwbfile: Optional[NWBFile] = None,
-        metadata: Optional[dict] = None,
-        overwrite: bool = False,
-        save_path: OptionalFilePathType = None,
+    def __init__(
+        self, ophys_file_paths: list, timestamps_file_path: str, verbose: bool = True
     ):
-        write_imaging(
-            imaging=self.imaging_extractor,
-            nwbfile_path=nwbfile_path,
-            nwbfile=nwbfile,
-            metadata=metadata,
-            overwrite=overwrite,
-            verbose=self.verbose,
-            save_path=save_path,
-        )
+        imaging_extractors = [
+            ScherrerOphysImagingExtractor(file_path=file_path)
+            for file_path in ophys_file_paths
+        ]
+        super().__init__(imaging_extractors=imaging_extractors)
+        timestamps = get_timestamps_from_csv(file_path=timestamps_file_path)
+        if not calculate_regular_series_rate(timestamps):
+            # only use timestamps if they are not regular
+            self.imaging_extractor.set_times(times=timestamps)
+        self.verbose = verbose
