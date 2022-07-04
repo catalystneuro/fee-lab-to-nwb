@@ -5,10 +5,7 @@ from zoneinfo import ZoneInfo
 
 from nwb_conversion_tools.utils import load_dict_from_file, dict_deep_update
 
-from fee_lab_to_nwb.scherrer_ophys import (
-    ScherrerOphysNWBConverter,
-    ScherrerOphysImagingExtractor,
-)
+from fee_lab_to_nwb.scherrer_ophys import ScherrerOphysNWBConverter
 from utils import get_timestamps_from_csv
 
 # The base folder path for ophys data
@@ -36,13 +33,10 @@ nwbfile_path = behavior_movie_file_path.parent / f"{nwb_file_name}.nwb"
 metadata_path = Path(__file__).parent / "scherrer_ophys_metadata.yml"
 metadata_from_yaml = load_dict_from_file(metadata_path)
 
-imaging_extractors = [
-    ScherrerOphysImagingExtractor(file_path=file_path) for file_path in ophys_file_paths
-]
 ophys_timestamps = get_timestamps_from_csv(file_path=ophys_timestamp_file_path)
 source_data = dict(
     Movie=dict(file_paths=[behavior_movie_file_path]),
-    Ophys=dict(imaging_extractors=imaging_extractors, timestamps=ophys_timestamps),
+    Ophys=dict(file_paths=ophys_file_paths, timestamps=ophys_timestamps),
 )
 
 timestamps = get_timestamps_from_csv(file_path=behavior_data_file_path)
