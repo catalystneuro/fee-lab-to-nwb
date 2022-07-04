@@ -33,10 +33,12 @@ nwbfile_path = behavior_movie_file_path.parent / f"{nwb_file_name}.nwb"
 metadata_path = Path(__file__).parent / "scherrer_ophys_metadata.yml"
 metadata_from_yaml = load_dict_from_file(metadata_path)
 
-ophys_timestamps = get_timestamps_from_csv(file_path=ophys_timestamp_file_path)
 source_data = dict(
     Movie=dict(file_paths=[behavior_movie_file_path]),
-    Ophys=dict(file_paths=ophys_file_paths, timestamps=ophys_timestamps),
+    Ophys=dict(
+        ophys_file_paths=ophys_file_paths,
+        timestamps_file_path=str(ophys_timestamp_file_path),
+    ),
 )
 
 timestamps = get_timestamps_from_csv(file_path=behavior_data_file_path)
