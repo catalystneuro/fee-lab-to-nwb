@@ -1,7 +1,7 @@
-from nwb_conversion_tools.datainterfaces.ophys.baseimagingextractorinterface import (
+from neuroconv.datainterfaces.ophys.baseimagingextractorinterface import (
     BaseImagingExtractorInterface,
 )
-from nwb_conversion_tools.utils import calculate_regular_series_rate
+from neuroconv.utils import calculate_regular_series_rate
 from roiextractors.multiimagingextractor import MultiImagingExtractor
 
 from fee_lab_to_nwb.scherrer_ophys.scherrerophysimagingextractor import (

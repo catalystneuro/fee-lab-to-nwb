@@ -1,13 +1,13 @@
 from typing import Tuple
 
 import numpy as np
-from nwb_conversion_tools.datainterfaces.behavior.movie.movie_utils import (
+from neuroconv.datainterfaces.behavior.movie.movie_utils import (
     VideoCaptureContext,
     HAVE_OPENCV,
     INSTALL_MESSAGE,
 )
 from roiextractors import ImagingExtractor
-from nwb_conversion_tools.utils import FilePathType, ArrayType
+from neuroconv.utils import FilePathType, ArrayType
 from roiextractors.extraction_tools import NumpyArray
 
 
