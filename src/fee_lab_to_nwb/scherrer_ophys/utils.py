@@ -1,7 +1,7 @@
 """Utility functions for this dataset."""
 from pathlib import Path
 
-from nwb_conversion_tools.utils import FilePathType
+from neuroconv.utils import FilePathType
 from pandas import read_csv, to_datetime
 
 

@@ -3,7 +3,7 @@ from pathlib import Path
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-from nwb_conversion_tools.utils import load_dict_from_file, dict_deep_update
+from neuroconv.utils import load_dict_from_file, dict_deep_update
 
 from fee_lab_to_nwb.scherrer_ophys import ScherrerOphysNWBConverter
 from utils import get_timestamps_from_csv
