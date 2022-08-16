@@ -19,13 +19,14 @@ class ScherrerOphysImagingExtractor(ImagingExtractor):
     def __init__(self, file_path: FilePathType):
         super().__init__()
         self.file_path = file_path
-        self.video_capture_context = VideoCaptureContext(str(self.file_path)).__enter__()
+        self.video_capture_context = VideoCaptureContext(str(self.file_path))
         self._num_channels = 0
         self._channel_names = ["channel_0"]
 
-        self._num_frames = self.video_capture_context.get_movie_frame_count()
-        self._image_size = self.video_capture_context.get_frame_shape()[:-1]
-        self._sampling_frequency = self.video_capture_context.get_movie_fps()
+        with VideoCaptureContext(str(self.file_path)) as vc:
+            self._num_frames = vc.get_movie_frame_count()
+            self._image_size = vc.get_frame_shape()[:-1]
+            self._sampling_frequency = vc.get_movie_fps()
 
     def close(self):
         self.video_capture_context.release()
