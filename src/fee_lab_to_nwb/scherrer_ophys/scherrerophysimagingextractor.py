@@ -45,6 +45,27 @@ class ScherrerOphysImagingExtractor(ImagingExtractor):
         concatenated_frames = np.concatenate(frames, axis=0).squeeze()
         return concatenated_frames
 
+    def get_video(self, start_frame=None, end_frame=None, channel=0) -> np.ndarray:
+        start_frame = start_frame if start_frame is not None else 0
+        end_frame = end_frame if end_frame is not None else self.get_num_frames()
+
+        video_shape = (end_frame - start_frame,) + self._image_size
+
+        video = np.empty(shape=video_shape, dtype=self.get_dtype())
+        for frame_number in range(end_frame - start_frame):
+            rgb_frame = next(self.video_capture_context)
+
+            # Cast values from uint8 to uint16
+            green_color_data = rgb_frame[..., 1].astype(np.uint16)
+            blue_color_data = rgb_frame[..., 2].astype(np.uint16)
+            # Apply custom conversion to frames : green * 8 + blue / 8
+            gray_frame = (green_color_data * 8) + (blue_color_data / 8)
+            gray_frame = gray_frame.astype(np.uint16)
+
+            video[frame_number] = gray_frame
+
+        return video
+
     def get_image_size(self) -> Tuple:
         return self._image_size
 
