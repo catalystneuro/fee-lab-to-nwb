@@ -56,7 +56,7 @@ class ScherrerOphysImagingExtractor(ImagingExtractor):
 
         video_shape = (end_frame - start_frame,) + self._image_size
 
-        video = np.empty(shape=video_shape, dtype=self.get_dtype())
+        video = np.empty(shape=video_shape, dtype=np.uint16)
         for frame_number in range(end_frame - start_frame):
             rgb_frame = next(self.video_capture_context)
 
