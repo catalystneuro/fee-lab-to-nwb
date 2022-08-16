@@ -67,7 +67,7 @@ class ScherrerOphysImagingExtractor(ImagingExtractor):
             gray_frame = (green_color_data * 8) + (blue_color_data / 8)
             gray_frame = gray_frame.astype(np.uint16)
 
-            video[frame_number] = gray_frame
+            video[frame_number, ...] = gray_frame
 
         return video
 
