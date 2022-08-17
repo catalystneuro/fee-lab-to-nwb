@@ -1,5 +1,6 @@
 from typing import Optional
 
+from hdmf.backends.hdf5 import H5DataIO
 from neuroconv.basedatainterface import BaseDataInterface
 from neuroconv.utils import get_schema_from_hdmf_class, get_base_schema
 from pynwb import NWBFile, TimeSeries
@@ -45,22 +46,38 @@ class AudioInterface(BaseDataInterface):
         self,
         nwbfile: Optional[NWBFile] = None,
         metadata: Optional[dict] = None,
+        stub_test: bool = False,
+        compression_options: Optional[dict] = None,
     ):
 
         audio_metadata = metadata["Behavior"]["Audio"][0]
 
+        # TODO: this would be better to have its own function,
+        # could also check whether this AcousticWaveformSeries with the name from metadata
+        # already exists in the NWB file, and only add if it doesn't.
+
         # Load the audio file.
         file_path = self.source_data["file_path"]
-        sampling_rate, samples = wavfile.read(file_path, mmap=True)
+        sampling_rate, data = wavfile.read(file_path, mmap=True)
 
-        # create AcousticWaveformSeries with ndx-sound
-        acoustic_waveform_series = AcousticWaveformSeries(
-            name=audio_metadata["name"],
-            data=samples,  # TODO: wrap into H5DataIO?
+        acoustic_waveform_series_kwargs = dict(
             rate=float(sampling_rate),
-            description=audio_metadata["description"],
             starting_time=0.0,  # TODO: sync with recording start time
         )
 
-        # add audio recording to nwbfile as acquisition
+        if stub_test:
+            # Fast conversion for testing
+            acoustic_waveform_series_kwargs.update(data=data[:(sampling_rate * 10)],)
+        else:
+            compression_options = compression_options or dict(compression="gzip")
+            acoustic_waveform_series_kwargs.update(data=H5DataIO(data, **compression_options),)
+
+        # Add metadata
+        acoustic_waveform_series_kwargs.update(**audio_metadata)
+
+        # Create AcousticWaveformSeries with ndx-sound
+        acoustic_waveform_series = AcousticWaveformSeries(**acoustic_waveform_series_kwargs)
+
+        # Add audio recording to nwbfile as acquisition
+        # TODO: double check if this is indeed acquired and not stimuli
         nwbfile.add_acquisition(acoustic_waveform_series)
