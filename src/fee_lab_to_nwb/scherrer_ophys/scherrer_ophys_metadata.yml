@@ -19,3 +19,9 @@ Ophys:
     - name: TwoPhotonSeries
       description: Calcium imaging data at ~30 fps in grayscale format
       unit: Frames
+Behavior:
+  Audio:
+    - name: AcousticWaveformSeries
+      unit: n.a.
+      description: Audio recording of a songbird.
+
