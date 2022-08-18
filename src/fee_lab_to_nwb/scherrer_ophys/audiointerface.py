@@ -44,12 +44,12 @@ class AudioInterface(BaseDataInterface):
         return metadata_schema
 
     def add_acoustic_waveform_series(
-            self,
-            nwbfile: Optional[NWBFile] = None,
-            metadata: Optional[dict] = None,
-            stub_test: bool = False,
-            iterator_options: Optional[dict] = None,
-            compression_options: Optional[dict] = None,
+        self,
+        nwbfile: Optional[NWBFile] = None,
+        metadata: Optional[dict] = None,
+        stub_test: bool = False,
+        iterator_options: Optional[dict] = None,
+        compression_options: Optional[dict] = None,
     ):
 
         audio_metadata = metadata["Behavior"]["Audio"][0]
