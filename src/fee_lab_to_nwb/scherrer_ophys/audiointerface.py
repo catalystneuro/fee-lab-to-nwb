@@ -2,6 +2,7 @@ from typing import Optional
 
 from hdmf.backends.hdf5 import H5DataIO
 from neuroconv.basedatainterface import BaseDataInterface
+from neuroconv.tools.hdmf import SliceableDataChunkIterator
 from neuroconv.utils import get_schema_from_hdmf_class, get_base_schema
 from pynwb import NWBFile, TimeSeries
 from scipy.io import wavfile
@@ -47,6 +48,7 @@ class AudioInterface(BaseDataInterface):
         nwbfile: Optional[NWBFile] = None,
         metadata: Optional[dict] = None,
         stub_test: bool = False,
+        iterator_options: Optional[dict] = None,
         compression_options: Optional[dict] = None,
     ):
 
@@ -70,7 +72,15 @@ class AudioInterface(BaseDataInterface):
             acoustic_waveform_series_kwargs.update(data=data[:(sampling_rate * 10)],)
         else:
             compression_options = compression_options or dict(compression="gzip")
-            acoustic_waveform_series_kwargs.update(data=H5DataIO(data, **compression_options),)
+            iterator_options = iterator_options or dict()
+
+            acoustic_waveform_series_kwargs.update(data=H5DataIO(
+                SliceableDataChunkIterator(
+                    data=data,
+                    **iterator_options
+                ),
+                **compression_options),
+            )
 
         # Add metadata
         acoustic_waveform_series_kwargs.update(**audio_metadata)
