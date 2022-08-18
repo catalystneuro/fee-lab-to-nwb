@@ -21,20 +21,24 @@ metadata_path = Path(__file__).parent / "happ_ecephys_metadata.yml"
 metadata_from_yaml = load_dict_from_file(metadata_path)
 
 raw_file_path = (
-   experiment_folder / f"{session_name}_imec0" / f"{session_name}_t0.imec0.ap.bin"
+    experiment_folder / f"{session_name}_imec0" / f"{session_name}_t0.imec0.ap.bin"
 )
 
 lfp_file_path = raw_file_path.parent / raw_file_path.name.replace("ap", "lf")
-#nidq_file_path = str(experiment_folder / f"{session_name}_t0.nidq.bin")
+# nidq_file_path = str(experiment_folder / f"{session_name}_t0.nidq.bin")
 
-source_data = dict(SpikeGLXLFP=dict(file_path=str(lfp_file_path)),)
+source_data = dict(
+    SpikeGLXLFP=dict(file_path=str(lfp_file_path)),
+)
 
 ecephys_dataset_converter = HappEcephysNWBConverter(source_data=source_data)
 
 metadata = ecephys_dataset_converter.get_metadata()
 metadata = dict_deep_update(metadata, metadata_from_yaml)
 
-conversion_options = dict(SpikeGLXLFP=dict(stub_test=True),)
+conversion_options = dict(
+    SpikeGLXLFP=dict(stub_test=True),
+)
 
 ecephys_dataset_converter.run_conversion(
     metadata=metadata, nwbfile_path=nwbfile_path, conversion_options=conversion_options
