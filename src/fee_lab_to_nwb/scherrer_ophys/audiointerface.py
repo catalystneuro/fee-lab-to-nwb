@@ -69,7 +69,9 @@ class AudioInterface(BaseDataInterface):
 
         if stub_test:
             # Fast conversion for testing
-            acoustic_waveform_series_kwargs.update(data=data[:(sampling_rate * 10)],)
+            acoustic_waveform_series_kwargs.update(
+                data=data[: (sampling_rate * 10)],
+            )
         else:
             compression_options = compression_options or dict(compression="gzip")
             iterator_options = iterator_options or dict()
@@ -86,7 +88,9 @@ class AudioInterface(BaseDataInterface):
         acoustic_waveform_series_kwargs.update(**audio_metadata)
 
         # Create AcousticWaveformSeries with ndx-sound
-        acoustic_waveform_series = AcousticWaveformSeries(**acoustic_waveform_series_kwargs)
+        acoustic_waveform_series = AcousticWaveformSeries(
+            **acoustic_waveform_series_kwargs
+        )
 
         # Add audio recording to nwbfile as acquisition
         # TODO: double check if this is indeed acquired and not stimuli
