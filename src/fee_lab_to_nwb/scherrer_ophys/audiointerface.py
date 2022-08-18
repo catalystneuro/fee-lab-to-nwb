@@ -43,20 +43,19 @@ class AudioInterface(BaseDataInterface):
         )
         return metadata_schema
 
-    def run_conversion(
-        self,
-        nwbfile: Optional[NWBFile] = None,
-        metadata: Optional[dict] = None,
-        stub_test: bool = False,
-        iterator_options: Optional[dict] = None,
-        compression_options: Optional[dict] = None,
+    def add_acoustic_waveform_series(
+            self,
+            nwbfile: Optional[NWBFile] = None,
+            metadata: Optional[dict] = None,
+            stub_test: bool = False,
+            iterator_options: Optional[dict] = None,
+            compression_options: Optional[dict] = None,
     ):
 
         audio_metadata = metadata["Behavior"]["Audio"][0]
-
-        # TODO: this would be better to have its own function,
-        # could also check whether this AcousticWaveformSeries with the name from metadata
-        # already exists in the NWB file, and only add if it doesn't.
+        # Early return if acoustic waveform series already exists in the NWB file
+        if audio_metadata["name"] in nwbfile.acquisition:
+            return
 
         # Load the audio file.
         file_path = self.source_data["file_path"]
@@ -95,3 +94,20 @@ class AudioInterface(BaseDataInterface):
         # Add audio recording to nwbfile as acquisition
         # TODO: double check if this is indeed acquired and not stimuli
         nwbfile.add_acquisition(acoustic_waveform_series)
+
+    def run_conversion(
+        self,
+        nwbfile: Optional[NWBFile] = None,
+        metadata: Optional[dict] = None,
+        stub_test: bool = False,
+        iterator_options: Optional[dict] = None,
+        compression_options: Optional[dict] = None,
+    ):
+
+        self.add_acoustic_waveform_series(
+            nwbfile=nwbfile,
+            metadata=metadata,
+            stub_test=stub_test,
+            iterator_options=iterator_options,
+            compression_options=compression_options,
+        )
