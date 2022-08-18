@@ -75,12 +75,11 @@ class AudioInterface(BaseDataInterface):
             compression_options = compression_options or dict(compression="gzip")
             iterator_options = iterator_options or dict()
 
-            acoustic_waveform_series_kwargs.update(data=H5DataIO(
-                SliceableDataChunkIterator(
-                    data=data,
-                    **iterator_options
+            acoustic_waveform_series_kwargs.update(
+                data=H5DataIO(
+                    SliceableDataChunkIterator(data=data, **iterator_options),
+                    **compression_options
                 ),
-                **compression_options),
             )
 
         # Add metadata
