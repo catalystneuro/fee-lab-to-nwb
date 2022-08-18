@@ -8,7 +8,7 @@ from neuroconv.datainterfaces.behavior.movie.movie_utils import (
 )
 from roiextractors import ImagingExtractor
 from neuroconv.utils import FilePathType, ArrayType
-from roiextractors.extraction_tools import NumpyArray, DtypeType
+from roiextractors.extraction_tools import NumpyArray
 
 
 class ScherrerOphysImagingExtractor(ImagingExtractor):
@@ -35,7 +35,7 @@ class ScherrerOphysImagingExtractor(ImagingExtractor):
     def get_frames(self, frame_idxs: ArrayType, channel: int = 0) -> NumpyArray:
         frames = []
         for frame_index in frame_idxs:
-            with self.video_capture_context as vc:
+            with VideoCaptureContext(str(self.file_path)) as vc:
                 rgb_frame = vc.get_movie_frame(frame_number=frame_index)
 
             # Cast values from uint8 to uint16
@@ -85,6 +85,3 @@ class ScherrerOphysImagingExtractor(ImagingExtractor):
 
     def get_num_channels(self) -> int:
         return self._num_channels
-
-    def get_dtype(self) -> DtypeType:
-        return self.video_capture_context.get_movie_frame_dtype()
