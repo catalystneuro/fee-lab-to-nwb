@@ -28,17 +28,19 @@ lfp_file_path = raw_file_path.parent / raw_file_path.name.replace("ap", "lf")
 # nidq_file_path = str(experiment_folder / f"{session_name}_t0.nidq.bin")
 
 source_data = dict(
+    SpikeGLXRecording=dict(file_path=str(raw_file_path)),
     SpikeGLXLFP=dict(file_path=str(lfp_file_path)),
+)
+
+conversion_options = dict(
+    SpikeGLXRecording=dict(stub_test=True),
+    SpikeGLXLFP=dict(stub_test=True),
 )
 
 ecephys_dataset_converter = HappEcephysNWBConverter(source_data=source_data)
 
 metadata = ecephys_dataset_converter.get_metadata()
 metadata = dict_deep_update(metadata, metadata_from_yaml)
-
-conversion_options = dict(
-    SpikeGLXLFP=dict(stub_test=True),
-)
 
 ecephys_dataset_converter.run_conversion(
     metadata=metadata, nwbfile_path=nwbfile_path, conversion_options=conversion_options
