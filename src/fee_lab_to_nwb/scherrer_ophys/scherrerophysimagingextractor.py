@@ -11,6 +11,22 @@ from neuroconv.utils import FilePathType, ArrayType
 from roiextractors.extraction_tools import NumpyArray
 
 
+def convert_rgb_frame_to_grayscale(rgb_frame: np.ndarray) -> np.ndarray:
+    """
+    Convert an RGB frame to grayscale using the custom conversion of color channels
+    specified by the Fee lab: green * 8 + blue / 8. The data type of the resulting
+    grayscale frame is uint16.
+    """
+    # Cast values from uint8 to uint16
+    green_color_data = rgb_frame[..., 1].astype(np.uint16)
+    blue_color_data = rgb_frame[..., 2].astype(np.uint16)
+    # Apply custom conversion to frames : green * 8 + blue / 8
+    gray_frame = (green_color_data * 8) + (blue_color_data / 8)
+    gray_frame = gray_frame.astype(np.uint16)
+
+    return gray_frame
+
+
 class ScherrerOphysImagingExtractor(ImagingExtractor):
     extractor_name = "ScherrerOphysImaging"
     installed = HAVE_OPENCV
@@ -60,14 +76,7 @@ class ScherrerOphysImagingExtractor(ImagingExtractor):
         for frame_number in range(end_frame - start_frame):
             rgb_frame = next(self.video_capture_context)
 
-            # Cast values from uint8 to uint16
-            green_color_data = rgb_frame[..., 1].astype(np.uint16)
-            blue_color_data = rgb_frame[..., 2].astype(np.uint16)
-            # Apply custom conversion to frames : green * 8 + blue / 8
-            gray_frame = (green_color_data * 8) + (blue_color_data / 8)
-            gray_frame = gray_frame.astype(np.uint16)
-
-            video[frame_number, ...] = gray_frame
+            video[frame_number, ...] = convert_rgb_frame_to_grayscale(rgb_frame)
 
         return video
 
