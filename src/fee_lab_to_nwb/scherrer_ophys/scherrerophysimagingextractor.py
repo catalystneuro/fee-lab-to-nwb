@@ -57,10 +57,10 @@ class ScherrerOphysImagingExtractor(ImagingExtractor):
         return concatenated_frames
 
     def get_video(
-            self,
-            start_frame: Optional[int] = None,
-            end_frame: Optional[int] = None,
-            channel: Optional[int] = 0
+        self,
+        start_frame: Optional[int] = None,
+        end_frame: Optional[int] = None,
+        channel: Optional[int] = 0,
     ) -> np.ndarray:
         start_frame = start_frame if start_frame is not None else 0
         end_frame = end_frame if end_frame is not None else self.get_num_frames()
