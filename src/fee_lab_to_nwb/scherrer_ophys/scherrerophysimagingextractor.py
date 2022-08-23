@@ -50,13 +50,7 @@ class ScherrerOphysImagingExtractor(ImagingExtractor):
             with VideoCaptureContext(str(self.file_path)) as vc:
                 rgb_frame = vc.get_movie_frame(frame_number=frame_index)
 
-            # Cast values from uint8 to uint16
-            green_color_data = rgb_frame[..., 1].astype(np.uint16)
-            blue_color_data = rgb_frame[..., 2].astype(np.uint16)
-            # Apply custom conversion to frames : green * 8 + blue / 8
-            gray_frame = (green_color_data * 8) + (blue_color_data / 8)
-            gray_frame = gray_frame.astype(np.uint16)
-
+            gray_frame = convert_rgb_frame_to_grayscale(rgb_frame)
             frames.append(gray_frame[np.newaxis, ...])
 
         concatenated_frames = np.concatenate(frames, axis=0).squeeze()
