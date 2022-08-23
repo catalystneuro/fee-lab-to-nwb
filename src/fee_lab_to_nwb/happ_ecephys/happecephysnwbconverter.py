@@ -3,6 +3,7 @@ from neuroconv import (
     NWBConverter,
     SpikeGLXRecordingInterface,
     SpikeGLXLFPInterface,
+    PhySortingInterface,
 )
 
 
@@ -12,6 +13,7 @@ class HappEcephysNWBConverter(NWBConverter):
     data_interface_classes = dict(
         SpikeGLXRecording=SpikeGLXRecordingInterface,
         SpikeGLXLFP=SpikeGLXLFPInterface,
+        Sorting=PhySortingInterface,
     )
 
     def __init__(self, source_data):

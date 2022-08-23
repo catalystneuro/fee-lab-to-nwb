@@ -30,11 +30,13 @@ lfp_file_path = raw_file_path.parent / raw_file_path.name.replace("ap", "lf")
 source_data = dict(
     SpikeGLXRecording=dict(file_path=str(raw_file_path)),
     SpikeGLXLFP=dict(file_path=str(lfp_file_path)),
+    Sorting=dict(folder_path=str(raw_file_path.parent)),
 )
 
 conversion_options = dict(
     SpikeGLXRecording=dict(stub_test=True),
     SpikeGLXLFP=dict(stub_test=True),
+    Sorting=dict(stub_test=True),
 )
 
 ecephys_dataset_converter = HappEcephysNWBConverter(source_data=source_data)
