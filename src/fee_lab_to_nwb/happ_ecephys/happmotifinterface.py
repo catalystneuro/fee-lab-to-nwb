@@ -38,11 +38,8 @@ class MotifInterface(BaseDataInterface):
 
     def run_conversion(
         self,
-        nwbfile: Optional[NWBFile] = None,
+        nwbfile: NWBFile,
         metadata: Optional[dict] = None,
-        stub_test: bool = False,
-        iterator_options: Optional[dict] = None,
-        compression_options: Optional[dict] = None,
     ):
 
         # todo: sync with session_start_time
