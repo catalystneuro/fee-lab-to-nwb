@@ -53,7 +53,7 @@ class ScherrerOphysImagingExtractor(ImagingExtractor):
             gray_frame = convert_rgb_frame_to_grayscale(rgb_frame)
             frames.append(gray_frame[np.newaxis, ...])
 
-        concatenated_frames = np.concatenate(frames, axis=0).squeeze()
+        concatenated_frames = np.concatenate(frames, axis=0)
         return concatenated_frames
 
     def get_video(
@@ -65,13 +65,16 @@ class ScherrerOphysImagingExtractor(ImagingExtractor):
         start_frame = start_frame if start_frame is not None else 0
         end_frame = end_frame if end_frame is not None else self.get_num_frames()
 
+        # Set video current frame to start_frame
+        self.video_capture_context.current_frame = start_frame
+
         video_shape = (end_frame - start_frame,) + self._image_size
 
         video = np.empty(shape=video_shape, dtype=np.uint16)
-        for frame_number in range(end_frame - start_frame):
-            rgb_frame = next(self.video_capture_context)
-
+        for frame_number, rgb_frame in enumerate(self.video_capture_context):
             video[frame_number, ...] = convert_rgb_frame_to_grayscale(rgb_frame)
+            if self.video_capture_context.current_frame == end_frame:
+                return video
 
         return video
 
