@@ -27,10 +27,13 @@ raw_file_path = (
 lfp_file_path = raw_file_path.parent / raw_file_path.name.replace("ap", "lf")
 # nidq_file_path = str(experiment_folder / f"{session_name}_t0.nidq.bin")
 
+motif_file_path = str(experiment_folder / f"timingData_{session_date}.mat")
+
 source_data = dict(
     SpikeGLXRecording=dict(file_path=str(raw_file_path)),
     SpikeGLXLFP=dict(file_path=str(lfp_file_path)),
     Sorting=dict(folder_path=str(raw_file_path.parent)),
+    Motif=dict(file_path=motif_file_path),
 )
 
 conversion_options = dict(

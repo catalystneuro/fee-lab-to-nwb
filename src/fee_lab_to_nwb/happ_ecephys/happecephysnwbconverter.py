@@ -6,6 +6,8 @@ from neuroconv import (
     PhySortingInterface,
 )
 
+from fee_lab_to_nwb.happ_ecephys.happmotifinterface import MotifInterface
+
 
 class HappEcephysNWBConverter(NWBConverter):
     """Primary conversion class for the SpikeGLX data of the Fee lab."""
@@ -14,6 +16,7 @@ class HappEcephysNWBConverter(NWBConverter):
         SpikeGLXRecording=SpikeGLXRecordingInterface,
         SpikeGLXLFP=SpikeGLXLFPInterface,
         Sorting=PhySortingInterface,
+        Motif=MotifInterface,
     )
 
     def __init__(self, source_data):
