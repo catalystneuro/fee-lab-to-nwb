@@ -31,7 +31,9 @@ class MotifInterface(BaseDataInterface):
 
         num_motifs = motifs.shape[0]
         motif_ids = [motifs[:, 0][motif_num][0] for motif_num in range(num_motifs)]
-        motif_timestamp = [motifs[:, 1][motif_num][0][0] for motif_num in range(num_motifs)]
+        motif_timestamp = [
+            motifs[:, 1][motif_num][0][0] for motif_num in range(num_motifs)
+        ]
         return motif_ids, motif_timestamp
 
     def run_conversion(
@@ -51,8 +53,7 @@ class MotifInterface(BaseDataInterface):
         # the last timestamp does not have a stop time
         stop_times.append(np.nan)
         for (start_time, stop_time) in zip(start_times, stop_times):
-            nwbfile.add_trial(start_time=start_time,
-                              stop_time=stop_time)
+            nwbfile.add_trial(start_time=start_time, stop_time=stop_time)
 
         nwbfile.add_trial_column(
             name="motif_id",
