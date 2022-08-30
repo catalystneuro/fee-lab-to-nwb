@@ -6,7 +6,11 @@ from neuroconv import (
     PhySortingInterface,
 )
 
+
 from fee_lab_to_nwb.happ_ecephys.happmotifinterface import MotifInterface
+
+from fee_lab_to_nwb.general_interfaces import AudioInterface
+
 
 
 class HappEcephysNWBConverter(NWBConverter):
@@ -17,6 +21,7 @@ class HappEcephysNWBConverter(NWBConverter):
         SpikeGLXLFP=SpikeGLXLFPInterface,
         Sorting=PhySortingInterface,
         Motif=MotifInterface,
+        Audio=AudioInterface,
     )
 
     def __init__(self, source_data):
