@@ -27,16 +27,20 @@ raw_file_path = (
 lfp_file_path = raw_file_path.parent / raw_file_path.name.replace("ap", "lf")
 # nidq_file_path = str(experiment_folder / f"{session_name}_t0.nidq.bin")
 
+audio_file_path = experiment_folder / f"micData_{session_date}.wav"
+
 source_data = dict(
     SpikeGLXRecording=dict(file_path=str(raw_file_path)),
     SpikeGLXLFP=dict(file_path=str(lfp_file_path)),
     Sorting=dict(folder_path=str(raw_file_path.parent)),
+    Audio=dict(file_path=str(audio_file_path)),
 )
 
 conversion_options = dict(
     SpikeGLXRecording=dict(stub_test=True),
     SpikeGLXLFP=dict(stub_test=True),
     Sorting=dict(stub_test=True),
+    Audio=dict(stub_test=True),
 )
 
 ecephys_dataset_converter = HappEcephysNWBConverter(source_data=source_data)

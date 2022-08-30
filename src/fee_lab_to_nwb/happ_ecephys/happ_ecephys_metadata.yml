@@ -3,3 +3,7 @@ NWBFile:
   lab: Fee Lab
   experimenter:
     - Happ, Michael
+Behavior:
+  Audio:
+    - name: AcousticWaveformSeries
+      description: Audio recording of a songbird.
