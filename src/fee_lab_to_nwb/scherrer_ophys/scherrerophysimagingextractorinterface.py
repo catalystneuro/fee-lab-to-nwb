@@ -11,7 +11,7 @@ from fee_lab_to_nwb.scherrer_ophys.utils import get_timestamps_from_csv
 
 
 class ScherrerOphysImagingExtractorInterface(BaseImagingExtractorInterface):
-    IX = MultiImagingExtractor
+    Extractor = MultiImagingExtractor
 
     def __init__(
         self, ophys_file_paths: list, timestamps_file_path: str, verbose: bool = True
