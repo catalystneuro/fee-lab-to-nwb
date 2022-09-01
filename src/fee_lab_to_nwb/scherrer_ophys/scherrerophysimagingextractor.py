@@ -1,14 +1,17 @@
 from typing import Tuple, Optional
 
 import numpy as np
-from neuroconv.datainterfaces.behavior.movie.movie_utils import (
-    VideoCaptureContext,
-    HAVE_OPENCV,
-    INSTALL_MESSAGE,
-)
+from neuroconv.datainterfaces.behavior.movie.movie_utils import VideoCaptureContext
 from roiextractors import ImagingExtractor
 from neuroconv.utils import FilePathType, ArrayType
 from roiextractors.extraction_tools import NumpyArray
+
+try:
+    import cv2
+    HAVE_OPENCV = True
+except ImportError:
+    HAVE_OPENCV = False
+INSTALL_MESSAGE = "Please install opencv to use the VideoCaptureContext class! (pip install opencv-python)"
 
 
 def convert_rgb_frame_to_grayscale(rgb_frame: np.ndarray) -> np.ndarray:
