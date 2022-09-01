@@ -5,6 +5,9 @@ from neuroconv.datainterfaces import MovieInterface
 from fee_lab_to_nwb.scherrer_ophys.scherrerophysimaginginterface import (
     ScherrerOphysImagingInterface,
 )
+from fee_lab_to_nwb.scherrer_ophys.scherrerophyssegmentationinterface import (
+    ScherrerOphysSegmentationInterface,
+)
 
 
 class ScherrerOphysNWBConverter(NWBConverter):
@@ -13,4 +16,5 @@ class ScherrerOphysNWBConverter(NWBConverter):
     data_interface_classes = dict(
         Movie=MovieInterface,
         Ophys=ScherrerOphysImagingInterface,
+        Segmentation=ScherrerOphysSegmentationInterface,
     )
