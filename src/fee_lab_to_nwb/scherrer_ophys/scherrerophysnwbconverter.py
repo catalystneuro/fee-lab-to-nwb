@@ -1,11 +1,9 @@
 """Primary NWBConverter class for this dataset."""
-from neuroconv import (
-    NWBConverter,
-    MovieInterface,
-)
+from neuroconv import NWBConverter
+from neuroconv.datainterfaces import MovieInterface
 
-from fee_lab_to_nwb.scherrer_ophys.scherrerophysimagingextractorinterface import (
-    ScherrerOphysImagingExtractorInterface,
+from fee_lab_to_nwb.scherrer_ophys.scherrerophysimaginginterface import (
+    ScherrerOphysImagingInterface,
 )
 
 
@@ -14,5 +12,5 @@ class ScherrerOphysNWBConverter(NWBConverter):
 
     data_interface_classes = dict(
         Movie=MovieInterface,
-        Ophys=ScherrerOphysImagingExtractorInterface,
+        Ophys=ScherrerOphysImagingInterface,
     )
