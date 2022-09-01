@@ -16,7 +16,7 @@ class ScherrerOphysImagingInterface(BaseImagingExtractorInterface):
     ):
         imaging_extractors = [
             ScherrerOphysImagingExtractor(file_path=file_path)
-            for file_path in ophys_file_paths
+            for file_path in sorted(ophys_file_paths)
         ]
         super().__init__(imaging_extractors=imaging_extractors)
         timestamps = get_timestamps_from_csv(file_path=timestamps_file_path)
