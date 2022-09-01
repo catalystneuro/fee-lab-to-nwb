@@ -10,7 +10,7 @@ with open("README.md", "r") as f:
     long_description = f.read()
 
 setup(
-    name="fee_lab_to_nwb",
+    name="fee-lab-to-nwb",
     version="0.0.1",
     description="NWB conversion scripts, functions, and classes for the Fee lab.",
     long_description=long_description,
@@ -18,7 +18,8 @@ setup(
     author="Ben Dichter, Cody Baker, and Szonja Weigl",
     author_email="ben.dichter@catalystneuro.com",
     url="https://github.com/catalystneuro/fee-lab-to-nwb",
-    packages=find_packages(),
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
     include_package_data=True,
     python_requires=">=3.7",
     install_requires=install_requires,
