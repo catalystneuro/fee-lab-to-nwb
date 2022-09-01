@@ -7,13 +7,14 @@ from fee_lab_to_nwb.scherrer_ophys.utils import get_timestamps_from_csv
 
 class ScherrerOphysSegmentationInterface(ExtractSegmentationInterface):
     """Data interface for ExtractSegmentationExtractor."""
+
     Extractor = ExtractSegmentationExtractor
 
     def __init__(
-            self,
-            file_path: FilePathType,
-            timestamps_file_path: FilePathType,
-            output_struct_name: str = "exOut",
+        self,
+        file_path: FilePathType,
+        timestamps_file_path: FilePathType,
+        output_struct_name: str = "exOut",
     ):
 
         super().__init__(
