@@ -6,13 +6,6 @@ from roiextractors import ImagingExtractor
 from neuroconv.utils import FilePathType, ArrayType
 from roiextractors.extraction_tools import NumpyArray
 
-try:
-    import cv2
-    HAVE_OPENCV = True
-except ImportError:
-    HAVE_OPENCV = False
-INSTALL_MESSAGE = "Please install opencv to use the VideoCaptureContext class! (pip install opencv-python)"
-
 
 def convert_rgb_frame_to_grayscale(rgb_frame: np.ndarray) -> np.ndarray:
     """
@@ -32,8 +25,6 @@ def convert_rgb_frame_to_grayscale(rgb_frame: np.ndarray) -> np.ndarray:
 
 class ScherrerOphysImagingExtractor(ImagingExtractor):
     extractor_name = "ScherrerOphysImaging"
-    installed = HAVE_OPENCV
-    installation_mesg = INSTALL_MESSAGE
 
     def __init__(self, file_path: FilePathType):
         super().__init__()
