@@ -8,6 +8,7 @@ from roiextractors.extraction_tools import NumpyArray
 
 try:
     import cv2
+
     HAVE_OPENCV = True
 except ImportError:
     HAVE_OPENCV = False
