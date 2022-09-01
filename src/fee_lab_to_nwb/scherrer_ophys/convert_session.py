@@ -27,6 +27,9 @@ ophys_file_paths = [
 ]
 ophys_timestamp_file_path = ophys_dataset_path / f"invivo_{ophys_dataset_timestamp}.csv"
 
+# The file path to the extract output .mat file
+segmentation_data_file_path = str(ophys_dataset_path / "extract_output.mat")
+
 # The NWB file should be adjacent to the behavior movie file
 nwbfile_path = behavior_movie_file_path.parent / f"{nwb_file_name}.nwb"
 
@@ -37,6 +40,10 @@ source_data = dict(
     Movie=dict(file_paths=[behavior_movie_file_path]),
     Ophys=dict(
         ophys_file_paths=ophys_file_paths,
+        timestamps_file_path=str(ophys_timestamp_file_path),
+    ),
+    Segmentation=dict(
+        file_path=segmentation_data_file_path,
         timestamps_file_path=str(ophys_timestamp_file_path),
     ),
 )
