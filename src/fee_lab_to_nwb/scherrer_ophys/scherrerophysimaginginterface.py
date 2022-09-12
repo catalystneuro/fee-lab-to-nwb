@@ -9,6 +9,10 @@ from .scherrerophysimagingextractor import ScherrerOphysImagingExtractor
 
 
 class ScherrerOphysImagingInterface(BaseImagingExtractorInterface):
+    """
+    Data Interface for writing the Fee lab imaging data to NWB file using the
+    MultiImagingExtractor to extract the frames from each ScherrerOphysImagingExtractor.
+    """
     Extractor = MultiImagingExtractor
 
     def __init__(
