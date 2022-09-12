@@ -9,14 +9,16 @@ from .scherrerophysimagingextractor import ScherrerOphysImagingExtractor
 
 
 class ScherrerOphysImagingInterface(BaseImagingExtractorInterface):
+    """
+    Data Interface for writing the Fee lab imaging data to NWB file using the
+    MultiImagingExtractor to extract the frames from each ScherrerOphysImagingExtractor.
+    """
+
     Extractor = MultiImagingExtractor
 
-    def __init__(
-        self, ophys_file_paths: list, timestamps_file_path: str, verbose: bool = True
-    ):
+    def __init__(self, ophys_file_paths: list, timestamps_file_path: str, verbose: bool = True):
         imaging_extractors = [
-            ScherrerOphysImagingExtractor(file_path=file_path)
-            for file_path in sorted(ophys_file_paths)
+            ScherrerOphysImagingExtractor(file_path=file_path) for file_path in sorted(ophys_file_paths)
         ]
         super().__init__(imaging_extractors=imaging_extractors)
         timestamps = get_timestamps_from_csv(file_path=timestamps_file_path)
