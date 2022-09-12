@@ -76,19 +76,14 @@ class AudioInterface(BaseDataInterface):
             iterator_options = iterator_options or dict()
 
             acoustic_waveform_series_kwargs.update(
-                data=H5DataIO(
-                    SliceableDataChunkIterator(data=data, **iterator_options),
-                    **compression_options
-                ),
+                data=H5DataIO(SliceableDataChunkIterator(data=data, **iterator_options), **compression_options),
             )
 
         # Add metadata
         acoustic_waveform_series_kwargs.update(**audio_metadata)
 
         # Create AcousticWaveformSeries with ndx-sound
-        acoustic_waveform_series = AcousticWaveformSeries(
-            **acoustic_waveform_series_kwargs
-        )
+        acoustic_waveform_series = AcousticWaveformSeries(**acoustic_waveform_series_kwargs)
 
         # Add audio recording to nwbfile as acquisition
         # TODO: double check if this is indeed acquired and not stimuli

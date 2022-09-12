@@ -25,6 +25,7 @@ def convert_rgb_frame_to_grayscale(rgb_frame: np.ndarray) -> np.ndarray:
 
 class ScherrerOphysImagingExtractor(ImagingExtractor):
     """Custom extractor for reading a single AVI file from the Fee lab imaging data."""
+
     extractor_name = "ScherrerOphysImaging"
 
     def __init__(self, file_path: FilePathType):
