@@ -77,11 +77,11 @@ find the following files:
 * `convert_session.py`: this is the central script that you must run in order to perform the full conversion.
 * `scherrer_ophys_metadata.yml`: metadata in yaml format for this specific conversion.
 * `scherrer_ophys_notes.yml`: notes and comments about the source data.
-* `scherrer_ophys_requirements.txt`: dependencies specific to this conversion specifically.
+* `scherrer_ophys_requirements.txt`: dependencies specific to this conversion.
 
 The other files that are necessary this specific conversion:
-* `scherrerophysimagingextractor.py`: the extractor for a single ophys file
-* `scherrerophysimaginginterface.py`:  the interface for this ophys dataset
+* `scherrerophysimagingextractor.py`: the extractor for a single ophys file.
+* `scherrerophysimaginginterface.py`:  the interface for this ophys dataset.
 * `scherrerophysnwbconverter.py`: the place where the `NWBConverter` class is defined.
 
 The directory might contain other files that are necessary for the conversion but those are the central ones.
