@@ -21,9 +21,7 @@ behavior_movie_file_path = Path(f"./home_arena_{ophys_dataset_timestamp}.avi")
 behavior_movie_description = "Behavior video of animal moving in environment at ~30 fps"
 
 ophys_file_paths = [
-    ophys_file_name
-    for ophys_file_name in ophys_dataset_path.iterdir()
-    if ophys_file_name.suffix == ".avi"
+    ophys_file_name for ophys_file_name in ophys_dataset_path.iterdir() if ophys_file_name.suffix == ".avi"
 ]
 ophys_timestamp_file_path = ophys_dataset_path / f"invivo_{ophys_dataset_timestamp}.csv"
 
@@ -68,7 +66,4 @@ ophys_dataset_converter.run_conversion(
 )
 
 # Make sure that the behavior movie file is in the same folder as the NWB file
-assert all(
-    file in list(behavior_movie_file_path.parent.iterdir())
-    for file in [nwbfile_path, behavior_movie_file_path]
-)
+assert all(file in list(behavior_movie_file_path.parent.iterdir()) for file in [nwbfile_path, behavior_movie_file_path])

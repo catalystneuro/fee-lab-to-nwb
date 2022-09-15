@@ -1,4 +1,2 @@
 neuroconv
 nwbinspector
-ndx-events==0.2.0
-opencv-python==4.5.5.64
