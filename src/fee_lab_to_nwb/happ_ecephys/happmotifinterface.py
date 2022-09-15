@@ -31,9 +31,7 @@ class MotifInterface(BaseDataInterface):
 
         num_motifs = motifs.shape[0]
         motif_ids = [motifs[:, 0][motif_num][0] for motif_num in range(num_motifs)]
-        motif_timestamp = [
-            motifs[:, 1][motif_num][0][0] for motif_num in range(num_motifs)
-        ]
+        motif_timestamp = [motifs[:, 1][motif_num][0][0] for motif_num in range(num_motifs)]
         return motif_ids, motif_timestamp
 
     def run_conversion(

@@ -20,9 +20,7 @@ nwbfile_path = str(Path(__file__).parent / f"{session_name}.nwb")
 metadata_path = Path(__file__).parent / "happ_ecephys_metadata.yml"
 metadata_from_yaml = load_dict_from_file(metadata_path)
 
-raw_file_path = (
-    experiment_folder / f"{session_name}_imec0" / f"{session_name}_t0.imec0.ap.bin"
-)
+raw_file_path = experiment_folder / f"{session_name}_imec0" / f"{session_name}_t0.imec0.ap.bin"
 
 lfp_file_path = raw_file_path.parent / raw_file_path.name.replace("ap", "lf")
 # nidq_file_path = str(experiment_folder / f"{session_name}_t0.nidq.bin")
