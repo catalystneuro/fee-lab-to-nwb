@@ -54,13 +54,17 @@ metadata = dict_deep_update(metadata, metadata_from_yaml)
 # For fast conversion enable stub_test
 # To convert the entire session use iterator_type="v2" for the SpikeGLX data
 conversion_options = dict(
-    SpikeGLXRecording=dict(stub_test=True,),
-    SpikeGLXLFP=dict(stub_test=True,),
+    SpikeGLXRecording=dict(
+        stub_test=True,
+    ),
+    SpikeGLXLFP=dict(
+        stub_test=True,
+    ),
 )
 
 # Run the conversion
 converter.run_conversion(
-   metadata=metadata,
-   nwbfile_path=nwbfile_path,
-   conversion_options=conversion_options,
+    metadata=metadata,
+    nwbfile_path=nwbfile_path,
+    conversion_options=conversion_options,
 )
