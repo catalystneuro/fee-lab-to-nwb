@@ -20,6 +20,10 @@ behavior_data_file_path = ophys_folder_path / f"home_pos-speed-in_{ophys_dataset
 # Add a description for the behavior movie
 behavior_movie_description = "Behavior video of animal moving in environment at ~30 fps"
 
+ophys_file_paths = [
+    ophys_file_name for ophys_file_name in ophys_folder_path.iterdir() if ophys_file_name.suffix == ".avi"
+]
+ophys_timestamp_file_path = ophys_folder_path / f"invivo_{ophys_dataset_timestamp}.csv"
 # The file path to the extract output .mat file
 segmentation_data_file_path = ophys_folder_path / "extract_output.mat"
 
@@ -32,7 +36,7 @@ metadata_from_yaml = load_dict_from_file(metadata_path)
 source_data = dict(
     Movie=dict(file_paths=[behavior_movie_file_path]),
     Ophys=dict(
-        folder_path=str(ophys_folder_path),
+        ophys_file_paths=ophys_file_paths,
         timestamps_file_path=str(ophys_timestamp_file_path),
     ),
     Segmentation=dict(
@@ -71,7 +75,4 @@ ophys_dataset_converter.run_conversion(
 )
 
 # Make sure that the behavior movie file is in the same folder as the NWB file
-assert all(
-    file in list(behavior_movie_file_path.parent.iterdir())
-    for file in [nwbfile_path, behavior_movie_file_path]
-)
+assert all(file in list(behavior_movie_file_path.parent.iterdir()) for file in [nwbfile_path, behavior_movie_file_path])

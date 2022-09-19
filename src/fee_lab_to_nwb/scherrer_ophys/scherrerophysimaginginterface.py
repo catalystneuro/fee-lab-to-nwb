@@ -1,9 +1,7 @@
-from pathlib import Path
-
 from neuroconv.datainterfaces.ophys.baseimagingextractorinterface import (
     BaseImagingExtractorInterface,
 )
-from neuroconv.utils import calculate_regular_series_rate, FolderPathType
+from neuroconv.utils import calculate_regular_series_rate
 from roiextractors.multiimagingextractor import MultiImagingExtractor
 
 from ..scherrer_ophys.utils import get_timestamps_from_csv
@@ -11,20 +9,17 @@ from .scherrerophysimagingextractor import ScherrerOphysImagingExtractor
 
 
 class ScherrerOphysImagingInterface(BaseImagingExtractorInterface):
+    """
+    Data Interface for writing the Fee lab imaging data to NWB file using the
+    MultiImagingExtractor to extract the frames from each ScherrerOphysImagingExtractor.
+    """
+
     Extractor = MultiImagingExtractor
 
-    def __init__(
-        self, folder_path: FolderPathType, timestamps_file_path: str, verbose: bool = True
-    ):
-        ophys_file_paths = [
-            ophys_file_name
-            for ophys_file_name in Path(folder_path).iterdir()
-            if ophys_file_name.suffix == ".avi"
-        ]
+    def __init__(self, ophys_file_paths: list, timestamps_file_path: str, verbose: bool = True):
         # Initialize the imaging extractors for each file
         imaging_extractors = [
-            ScherrerOphysImagingExtractor(file_path=file_path)
-            for file_path in sorted(ophys_file_paths)
+            ScherrerOphysImagingExtractor(file_path=file_path) for file_path in sorted(ophys_file_paths)
         ]
         super().__init__(imaging_extractors=imaging_extractors)
         timestamps = get_timestamps_from_csv(file_path=timestamps_file_path)
