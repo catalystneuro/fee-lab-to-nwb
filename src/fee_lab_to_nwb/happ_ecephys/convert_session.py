@@ -64,7 +64,7 @@ conversion_options = dict(
 
 # Run the conversion
 converter.run_conversion(
-    metadata=metadata,
     nwbfile_path=nwbfile_path,
+    metadata=metadata,
     conversion_options=conversion_options,
 )
