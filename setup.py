@@ -11,7 +11,7 @@ with open("README.md", "r") as f:
 
 setup(
     name="fee-lab-to-nwb",
-    version="0.0.1",
+    version="1.0.0",
     description="NWB conversion scripts, functions, and classes for the Fee lab.",
     long_description=long_description,
     long_description_content_type="text/markdown",
