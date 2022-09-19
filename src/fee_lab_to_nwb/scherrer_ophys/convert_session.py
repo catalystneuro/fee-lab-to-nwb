@@ -15,7 +15,7 @@ ophys_folder_path = Path("/Volumes/t7-ssd/fee-lab-to-nwb/ophys")
 ophys_dataset_timestamp = "2021-07-26T13_50_50"
 
 # The file path to the behavior movie file
-behavior_movie_file_path = ophys_folder_path / f"./home_arena_{ophys_dataset_timestamp}.avi"
+behavior_movie_file_path = ophys_folder_path / f"home_arena_{ophys_dataset_timestamp}.avi"
 # The timestamps for the behavior movie file
 behavior_data_file_path = ophys_folder_path / f"home_pos-speed-in_{ophys_dataset_timestamp}.csv"
 # Add a description for the behavior movie
