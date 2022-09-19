@@ -31,6 +31,7 @@ class AudioInterface(BaseDataInterface):
         for key in exclude:
             time_series_metadata_schema["properties"].pop(key)
         metadata_schema["properties"]["Behavior"] = get_base_schema(tag="Behavior")
+        time_series_metadata_schema.update(required=["name"])
         metadata_schema["properties"]["Behavior"].update(
             required=["Audio"],
             properties=dict(

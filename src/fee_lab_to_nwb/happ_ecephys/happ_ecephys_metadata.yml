@@ -1,0 +1,9 @@
+NWBFile:
+  institution: Massachusetts Institute of Technology
+  lab: Fee Lab
+  experimenter:
+    - Happ, Michael
+Behavior:
+  Audio:
+    - name: AcousticWaveformSeries
+      description: Audio recording of a songbird.
