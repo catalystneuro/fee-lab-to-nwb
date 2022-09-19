@@ -23,7 +23,9 @@ behavior_movie_description = "Behavior video of animal moving in environment at 
 
 # The list of file paths to the imaging (.avi) files
 ophys_file_paths = [
-    ophys_file_name for ophys_file_name in ophys_folder_path.iterdir() if ophys_file_name.suffix == ".avi"
+    ophys_file_name
+    for ophys_file_name in ophys_folder_path.iterdir()
+    if ophys_file_name.suffix == ".avi" and ophys_file_name.stem.startswith("invivo")
 ]
 # Sort the file paths to make sure they are in incremental order
 ophys_file_paths = natsorted(ophys_file_paths)
