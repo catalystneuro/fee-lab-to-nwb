@@ -32,6 +32,9 @@ ophys_timestamp_file_path = ophys_folder_path / f"invivo_{ophys_dataset_timestam
 # The file path to the extract output .mat file
 segmentation_data_file_path = ophys_folder_path / "extract_output.mat"
 
+# The NWB file path should be adjacent to the behavior movie file
+nwbfile_path = behavior_movie_file_path.parent / f"{ophys_folder_path.stem}_{ophys_dataset_timestamp}.nwb"
+
 metadata_path = Path(__file__).parent / "scherrer_ophys_metadata.yml"
 metadata_from_yaml = load_dict_from_file(metadata_path)
 
@@ -68,9 +71,6 @@ metadata["NWBFile"].update(
 metadata["Behavior"]["Movies"][0].update(
     description=behavior_movie_description,
 )
-
-# The NWB file path should be adjacent to the behavior movie file
-nwbfile_path = behavior_movie_file_path.parent / f"stub_{ophys_folder_path.stem}_{ophys_dataset_timestamp}.nwb"
 
 ophys_dataset_converter.run_conversion(
     nwbfile_path=nwbfile_path, metadata=metadata, conversion_options=conversion_options
