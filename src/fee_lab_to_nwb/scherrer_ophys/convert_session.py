@@ -20,15 +20,14 @@ behavior_data_file_path = ophys_folder_path / f"home_pos-speed-in_{ophys_dataset
 # Add a description for the behavior movie
 behavior_movie_description = "Behavior video of animal moving in environment at ~30 fps"
 
+# The list of file paths to the imaging (.avi) files
 ophys_file_paths = [
     ophys_file_name for ophys_file_name in ophys_folder_path.iterdir() if ophys_file_name.suffix == ".avi"
 ]
+# The timestamps for the imaging data
 ophys_timestamp_file_path = ophys_folder_path / f"invivo_{ophys_dataset_timestamp}.csv"
 # The file path to the extract output .mat file
 segmentation_data_file_path = ophys_folder_path / "extract_output.mat"
-
-# The timestamps for the imaging data
-ophys_timestamp_file_path = ophys_folder_path / f"invivo_{ophys_dataset_timestamp}.csv"
 
 metadata_path = Path(__file__).parent / "scherrer_ophys_metadata.yml"
 metadata_from_yaml = load_dict_from_file(metadata_path)
