@@ -3,13 +3,14 @@ from pathlib import Path
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
+from natsort import natsorted
 from neuroconv.utils import load_dict_from_file, dict_deep_update
 
 from fee_lab_to_nwb.scherrer_ophys import ScherrerOphysNWBConverter
 from utils import get_timestamps_from_csv
 
 # The base folder path for the calcium imaging data
-ophys_folder_path = Path("../../scherrer_ophys_data/")
+ophys_folder_path = Path("/Volumes/t7-ssd/fee-lab-to-nwb/ophys")
 # The timestamp for the recording
 ophys_dataset_timestamp = "2021-07-26T13_50_50"
 
@@ -24,6 +25,8 @@ behavior_movie_description = "Behavior video of animal moving in environment at 
 ophys_file_paths = [
     ophys_file_name for ophys_file_name in ophys_folder_path.iterdir() if ophys_file_name.suffix == ".avi"
 ]
+# Sort the file paths to make sure they are in incremental order
+ophys_file_paths = natsorted(ophys_file_paths)
 # The timestamps for the imaging data
 ophys_timestamp_file_path = ophys_folder_path / f"invivo_{ophys_dataset_timestamp}.csv"
 # The file path to the extract output .mat file
