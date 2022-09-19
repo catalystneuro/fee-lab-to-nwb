@@ -44,6 +44,11 @@ Note:
 both of the methods above install the repository
 in [editable mode](https://pip.pypa.io/en/stable/cli/pip_install/#editable-installs)
 
+You can also install the latest release of the package with pip:
+```
+pip install fee-lab-to-nwb
+```
+
 ## Repository structure
 
 Each conversion is organized in a directory of its own in the `src` directory:
