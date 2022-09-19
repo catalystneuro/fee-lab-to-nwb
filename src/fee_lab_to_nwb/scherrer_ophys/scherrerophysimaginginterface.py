@@ -17,9 +17,8 @@ class ScherrerOphysImagingInterface(BaseImagingExtractorInterface):
     Extractor = MultiImagingExtractor
 
     def __init__(self, ophys_file_paths: list, timestamps_file_path: str, verbose: bool = True):
-        imaging_extractors = [
-            ScherrerOphysImagingExtractor(file_path=file_path) for file_path in sorted(ophys_file_paths)
-        ]
+        # Initialize the imaging extractors for each file
+        imaging_extractors = [ScherrerOphysImagingExtractor(file_path=file_path) for file_path in ophys_file_paths]
         super().__init__(imaging_extractors=imaging_extractors)
         timestamps = get_timestamps_from_csv(file_path=timestamps_file_path)
         if not calculate_regular_series_rate(timestamps):
