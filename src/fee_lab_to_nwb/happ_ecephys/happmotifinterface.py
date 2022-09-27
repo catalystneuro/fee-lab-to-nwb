@@ -9,7 +9,7 @@ from scipy.io import loadmat
 class MotifInterface(BaseDataInterface):
     """Data interface for adding timing of the motifs as trials to the NWB file."""
 
-    def __init__(self, file_path: str):
+    def __init__(self, file_path: str, sync_file_path: str):
         """
         Create the interface for writing the timing of the motifs to the NWB file.
         The motifs are added as trials.
@@ -18,21 +18,44 @@ class MotifInterface(BaseDataInterface):
         ----------
         file_path: str
             The path to the file containing the timing of the motifs.
+        sync_file_path: str
+            The path to the file containing the Audio and SpikeGLX timestamps for synchronization.
         """
         super().__init__(file_path=file_path)
+        self.sync_file_path = sync_file_path
+        self.motifs = self.read_motif_data()
 
     def read_motif_data(self):
         """Reads the .mat file containing the timing of the motifs.
         Returns the identifier and timing of the motifs."""
-        motif_data = loadmat(self.source_data["file_path"])
+        motif_data = loadmat(self.source_data["file_path"], squeeze_me=True, mat_dtype=True)
         assert "motifTimingData" in motif_data, "'motifTimingData' should be in file."
 
         motifs = motif_data["motifTimingData"]
+        return motifs
 
-        num_motifs = motifs.shape[0]
-        motif_ids = [motifs[:, 0][motif_num][0] for motif_num in range(num_motifs)]
-        motif_timestamp = [motifs[:, 1][motif_num][0][0] for motif_num in range(num_motifs)]
-        return motif_ids, motif_timestamp
+    def get_synchronized_motif_timestamps(self):
+        """Synchronizes the timings of motifs with the SpikeGLX timestamps."""
+        motif_timestamps = self.motifs[:, 1]
+
+        sync_data = loadmat(self.sync_file_path, squeeze_me=True, mat_dtype=True)
+        assert "Audio_eventTimes" in sync_data, f"'Audio_eventTimes' should be in file."
+        assert "IMEC_eventTimes" in sync_data, f"'IMEC_eventTimes' should be in file."
+
+        audio_timestamps = sync_data["Audio_eventTimes"][0]
+        imec_timestamps = sync_data["IMEC_eventTimes"][0]
+
+        first_timestamp_difference = imec_timestamps[0] - audio_timestamps[0]
+        audio_timestamps += first_timestamp_difference
+
+        all_timestamp_difference = imec_timestamps - audio_timestamps
+        xsorted = np.argsort(audio_timestamps)
+        ypos = np.searchsorted(audio_timestamps[xsorted], motif_timestamps)
+        indices = xsorted[ypos]
+
+        motif_timestamps += all_timestamp_difference[indices]
+
+        return motif_timestamps
 
     def run_conversion(
         self,
@@ -40,15 +63,14 @@ class MotifInterface(BaseDataInterface):
         metadata: Optional[dict] = None,
     ):
 
-        # todo: sync with session_start_time
-        motif_ids, motif_timestamps = self.read_motif_data()
+        motif_timestamps = self.get_synchronized_motif_timestamps()
+        motif_ids = self.motifs[:, 0]
 
-        start_times = motif_timestamps
-        stop_times = motif_timestamps[1:]
-        # the last timestamp does not have a stop time
-        stop_times.append(np.nan)
-        for (start_time, stop_time) in zip(start_times, stop_times):
+        # Motif timestamps only denote the onset of the stimuli
+        for (start_time, stop_time) in zip(motif_timestamps[::1], motif_timestamps[1::]):
             nwbfile.add_trial(start_time=start_time, stop_time=stop_time)
+        # The last motif does not have a stop time
+        nwbfile.add_trial(start_time=motif_timestamps[-1], stop_time=np.nan)
 
         nwbfile.add_trial_column(
             name="motif_id",
