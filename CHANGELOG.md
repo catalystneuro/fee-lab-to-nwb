@@ -1,7 +1,7 @@
 # Upcoming
 
 ### Improvements
-* Create file for tracking changes. [PR #36](https://github.com/catalystneuro/fee-lab-to-nwb/pull/36) 
+* Create file for tracking changes. [PR #36](https://github.com/catalystneuro/fee-lab-to-nwb/pull/36)
 
 # v1.0.0
 
