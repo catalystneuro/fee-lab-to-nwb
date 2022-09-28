@@ -68,7 +68,7 @@ class MotifInterface(BaseDataInterface):
         of each syllable is fixed for now, but should be modified in the future given
         more information about the mapping between motifs and syllables."""
         syllables = TimeIntervals(name="Syllables", description="desc")
-        syllables.add_column('label', 'The label of syllable.')
+        syllables.add_column("label", "The label of syllable.")
 
         syllables_start_times, syllables_end_times = [], []
         motif_start_times = list(motif_timestamps[::1])
@@ -78,11 +78,11 @@ class MotifInterface(BaseDataInterface):
             # Construct the timings of syllables from motif timestamps,
             # assuming that the number of syllables within motifs are ALWAYS the same.
             syllable_onset_times = np.linspace(
-                    start=start_time,
-                    stop=end_time,
-                    num=self.num_syllables_per_motif,
-                    endpoint=False,
-                )
+                start=start_time,
+                stop=end_time,
+                num=self.num_syllables_per_motif,
+                endpoint=False,
+            )
             syllables_start_times.extend(syllable_onset_times)
             # Until we can reverse-engineer the latency of each syllable from the mapping
             syllables_latency = np.nanmedian(np.diff(syllable_onset_times))
@@ -92,8 +92,7 @@ class MotifInterface(BaseDataInterface):
         syllables_labels = ["a", "b", "c", "d", "e"] * len(motif_timestamps)
 
         for (syllable_label, (start_time, end_time)) in zip(
-                syllables_labels,
-                zip(syllables_start_times, syllables_end_times)
+            syllables_labels, zip(syllables_start_times, syllables_end_times)
         ):
             syllables.add_interval(
                 label=syllable_label,
@@ -106,7 +105,7 @@ class MotifInterface(BaseDataInterface):
             description="The timings of motifs.",
             lower_tier_table=syllables,
         )
-        motifs_table.add_column('motif_name', 'The name of motif.')
+        motifs_table.add_column("motif_name", "The name of motif.")
 
         for motif_ind, motif_label in enumerate(self.motifs[:, 0]):
             motifs_table.add_interval(
@@ -126,9 +125,7 @@ class MotifInterface(BaseDataInterface):
         # Synchronize the timestamps of motifs with the SpikeGLX timestamps
         motif_timestamps = self.get_synchronized_motif_timestamps()
         # Create a hierarchical table with syllables and motif timestamps
-        motifs_table = self.create_hierarchical_table_from_motif_timestamps(
-            motif_timestamps=motif_timestamps
-        )
+        motifs_table = self.create_hierarchical_table_from_motif_timestamps(motif_timestamps=motif_timestamps)
 
         # Create behavioral processing module
         behavior_module = nwbfile.create_processing_module(
