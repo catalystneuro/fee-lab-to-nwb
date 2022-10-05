@@ -46,7 +46,7 @@ class MotifInterface(BaseDataInterface):
         imec_timestamps = sync_data["IMEC_eventTimes"][0]
 
         indices = np.searchsorted(audio_timestamps, motif_timestamps)
-        motif_timestamps += (imec_timestamps[indices] - audio_timestamps[indices])
+        motif_timestamps += imec_timestamps[indices] - audio_timestamps[indices]
 
         return motif_timestamps
 
