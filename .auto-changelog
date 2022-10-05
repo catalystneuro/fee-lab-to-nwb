@@ -1,0 +1,5 @@
+{
+  "template": "changelog_template.hbs",
+  "unreleased": true,
+  "ignoreCommitPattern": ".pre-commit."
+}

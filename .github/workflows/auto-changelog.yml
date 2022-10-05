@@ -1,0 +1,18 @@
+name: Auto generate CHANGELOG.md
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - name: Install auto-changelog
+        run: |
+          npm install -g auto-changelog
+          auto-changelog && git add CHANGELOG.md
