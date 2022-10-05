@@ -45,15 +45,8 @@ class MotifInterface(BaseDataInterface):
         audio_timestamps = sync_data["Audio_eventTimes"][0]
         imec_timestamps = sync_data["IMEC_eventTimes"][0]
 
-        first_timestamp_difference = imec_timestamps[0] - audio_timestamps[0]
-        audio_timestamps += first_timestamp_difference
-
-        all_timestamp_difference = imec_timestamps - audio_timestamps
-        xsorted = np.argsort(audio_timestamps)
-        ypos = np.searchsorted(audio_timestamps[xsorted], motif_timestamps)
-        indices = xsorted[ypos]
-
-        motif_timestamps += all_timestamp_difference[indices]
+        indices = np.searchsorted(audio_timestamps, motif_timestamps)
+        motif_timestamps += (imec_timestamps[indices] - audio_timestamps[indices])
 
         return motif_timestamps
 
@@ -75,5 +68,5 @@ class MotifInterface(BaseDataInterface):
         nwbfile.add_trial_column(
             name="motif_id",
             description="Identifier of the repeating audio stimulus.",
-            data=motif_ids,
+            data=list(motif_ids),
         )
