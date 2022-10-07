@@ -2,11 +2,25 @@
 {{#each releases}}
   # {{title}}
 
-  {{#each merges}}
-    * {{message}}. [PR#{{id}}]({{href}})
-  {{/each}}
-  {{#each commits}}
-    * {{#if breaking}}**Breaking change:** {{/if}}{{subject}}{{#if href}} [`{{shorthash}}`]({{href}}){{/if}}
-  {{/each}}
-
+{{#if merges}}
+     {{#commit-list merges heading="### Back-compatability break" message='[bB]reak'}}
+       * {{message}} [PR#{{id}}]({{href}})
+     {{/commit-list}}
+    {{#commit-list merges heading="### Improvements" message='[aA]dd'}}
+       * {{message}} [PR#{{id}}]({{href}})
+    {{/commit-list}}
+     {{#commit-list merges heading="### Documentation" message='[dD]ocument'}}
+       * {{message}} [PR#{{id}}]({{href}})
+     {{/commit-list}}
+     {{#commit-list merges heading="### Fixes" message='[fF]ix' exclude='[aA]dd'}}
+       * {{message}} [PR#{{id}}]({{href}})
+     {{/commit-list}}
+     {{#commit-list merges heading="### Testing" message='[eT]est'}}
+       * {{message}} [PR#{{id}}]({{href}})
+     {{/commit-list}}
+     {{! List merges not already listed above }}
+     {{#commit-list merges heading="### Other" exclude='[aA]dd|[uU]pdate|[rR]emove|[fF]ix|[bB]reak|[dD]ocument|[eT]est'}}
+       * {{message}} [PR#{{id}}]({{href}})
+     {{/commit-list}}
+   {{/if}}
 {{/each}}
