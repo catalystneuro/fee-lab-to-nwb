@@ -52,9 +52,15 @@ source_data = dict(
     ),
 )
 
-timestamps = get_timestamps_from_csv(file_path=behavior_data_file_path)
+unadjusted_timestamps = get_timestamps_from_csv(file_path=behavior_data_file_path)
+ophys_timestamps = get_timestamps_from_csv(file_path=ophys_timestamp_file_path, adjust_to_zero=False)
+behavior_timestamps = get_timestamps_from_csv(file_path=behavior_data_file_path, adjust_to_zero=False)
+offset = behavior_timestamps[0].replace(tzinfo=None) - ophys_timestamps[0]
+offset_in_seconds = offset.total_seconds()
+adjusted_timestamps = [timestamp + offset_in_seconds for timestamp in unadjusted_timestamps]
+
 conversion_options = dict(
-    Movie=dict(external_mode=True, timestamps=timestamps),
+    Movie=dict(external_mode=True, timestamps=adjusted_timestamps),
 )
 
 ophys_dataset_converter = ScherrerOphysNWBConverter(source_data=source_data)
