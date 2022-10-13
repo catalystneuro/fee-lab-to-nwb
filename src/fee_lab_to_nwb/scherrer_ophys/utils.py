@@ -5,7 +5,7 @@ from neuroconv.utils import FilePathType
 from pandas import read_csv, to_datetime
 
 
-def get_timestamps_from_csv(file_path: FilePathType):
+def get_timestamps_from_csv(file_path: FilePathType, adjust_to_zero: bool = True):
     """
     Extracts timestamps from a file.
     """
@@ -19,7 +19,9 @@ def get_timestamps_from_csv(file_path: FilePathType):
     data = read_csv(file_path, sep=" ", header=None, usecols=[0])
 
     timestamp_in_datetime = to_datetime(data[0])
+    if not adjust_to_zero:
+        return timestamp_in_datetime
+
     elapsed_time_since_start = timestamp_in_datetime - timestamp_in_datetime.min()
     timestamps = elapsed_time_since_start.apply(lambda x: x.total_seconds()).to_list()
-
     return timestamps
