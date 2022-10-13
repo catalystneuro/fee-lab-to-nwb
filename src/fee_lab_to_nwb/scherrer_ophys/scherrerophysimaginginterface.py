@@ -4,8 +4,7 @@ from neuroconv.datainterfaces.ophys.baseimagingextractorinterface import (
 from neuroconv.utils import calculate_regular_series_rate
 from roiextractors.multiimagingextractor import MultiImagingExtractor
 
-from ..scherrer_ophys.utils import get_timestamps_from_csv, \
-    shift_timestamps_to_start_from_zero
+from ..scherrer_ophys.utils import get_timestamps_from_csv, shift_timestamps_to_start_from_zero
 from .scherrerophysimagingextractor import ScherrerOphysImagingExtractor
 
 
