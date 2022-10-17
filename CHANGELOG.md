@@ -1,5 +1,8 @@
 # Upcoming
 
+### Fixes
+* Add auditory data to the NWB file as stimulus instead of acquisition. [PR #37](https://github.com/catalystneuro/fee-lab-to-nwb/pull/37)
+
 ### Improvements
 * Create file for tracking changes. [PR #36](https://github.com/catalystneuro/fee-lab-to-nwb/pull/36)
 
