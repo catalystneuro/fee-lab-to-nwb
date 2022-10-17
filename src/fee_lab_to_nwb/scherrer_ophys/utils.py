@@ -1,11 +1,12 @@
 """Utility functions for this dataset."""
 from pathlib import Path
 
+import numpy as np
 from neuroconv.utils import FilePathType
-from pandas import read_csv, to_datetime
+from pandas import read_csv, to_datetime, Series
 
 
-def get_timestamps_from_csv(file_path: FilePathType):
+def get_timestamps_from_csv(file_path: FilePathType) -> Series:
     """
     Extracts timestamps from a file.
     """
@@ -18,8 +19,13 @@ def get_timestamps_from_csv(file_path: FilePathType):
 
     data = read_csv(file_path, sep=" ", header=None, usecols=[0])
 
-    timestamp_in_datetime = to_datetime(data[0])
-    elapsed_time_since_start = timestamp_in_datetime - timestamp_in_datetime.min()
-    timestamps = elapsed_time_since_start.apply(lambda x: x.total_seconds()).to_list()
-
+    timestamps = to_datetime(data[0])
     return timestamps
+
+
+def shift_timestamps_to_start_from_zero(timestamps: Series) -> np.ndarray:
+    """
+    Returns the elapsed time in seconds since the first timestamp.
+    """
+    elapsed_time_since_start = timestamps - timestamps[0]
+    return np.array(elapsed_time_since_start.apply(lambda x: x.total_seconds()))
