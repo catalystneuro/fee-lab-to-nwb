@@ -1,0 +1,13 @@
+
+name: Deploy tests
+
+on:
+  pull_request:
+
+jobs:
+  assess-file-changes:
+    uses: catalystneuro/fee-lab-to-nwb/.github/workflows/assess-file-changes.yml@changelog_detector
+
+  detect-changelog-updates:
+    needs: assess-file-changes
+    run: ${{ needs.assess-file-changes.outputs.CHANGELOG_UPDATED == 'true' }}
