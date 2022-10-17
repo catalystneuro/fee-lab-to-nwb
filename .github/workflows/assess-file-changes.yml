@@ -34,7 +34,7 @@ jobs:
             if [[ $file == "CHANGELOG.md" ]]
             then
               echo "Changelog updated"
-              echo "::set-output name=CHANGELOG_UPDATED::true"
+              echo "CHANGELOG_UPDATED='true'" >> $GITHUB_OUTPUT
             else
               echo "Changelog not updated"
             fi
