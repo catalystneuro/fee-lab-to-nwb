@@ -12,4 +12,9 @@ jobs:
     name: Auto-detecting CHANGELOG.md updates
     runs-on: ubuntu-latest
     steps:
-      - run: ${{ needs.assess-file-changes.outputs.CHANGELOG_UPDATED == 'true' }}
+      - if:  ${{ needs.assess-file-changes.outputs.CHANGELOG_UPDATED == 'true' }}
+        run: echo "CHANGELOG.md has been updated."
+      - if:  ${{ needs.assess-file-changes.outputs.CHANGELOG_UPDATED == 'false' }}
+        run: |
+          echo "CHANGELOG.md has not been updated."
+          0
