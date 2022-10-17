@@ -40,4 +40,4 @@ jobs:
             fi
           done
       - name: temp, print out
-       run: echo ${{ steps.assess-changes.outputs.CHANGELOG_UPDATED }}
+        run: echo ${{ steps.assess-changes.outputs.CHANGELOG_UPDATED }}
