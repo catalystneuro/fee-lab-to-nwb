@@ -5,6 +5,9 @@
 
 ### Improvements
 * Create file for tracking changes. [PR #36](https://github.com/catalystneuro/fee-lab-to-nwb/pull/36)
+* Changed the `MotifInterface` to take a second argument that corresponds the file
+  that contains the Audio and SpikeGLX timestamps. This file is used for synchronizing
+  the motif timestamps. [PR #33](https://github.com/catalystneuro/fee-lab-to-nwb/pull/33)
 
 # v1.0.0
 
