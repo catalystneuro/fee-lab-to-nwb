@@ -9,4 +9,7 @@ jobs:
 
   detect-changelog-updates:
     needs: assess-file-changes
-    run: ${{ needs.assess-file-changes.outputs.CHANGELOG_UPDATED == 'true' }}
+    name: Auto-detecting CHANGELOG.md updates
+    runs-on: ubuntu-latest
+    steps:
+      - run: ${{ needs.assess-file-changes.outputs.CHANGELOG_UPDATED == 'true' }}
