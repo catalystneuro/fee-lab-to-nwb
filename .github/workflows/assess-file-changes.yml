@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     # Map the job outputs to step outputs
     outputs:
-      CHANGELOG_UPDATED: ${{ steps.source-changed.outputs.CHANGELOG_UPDATED }}
+      CHANGELOG_UPDATED: ${{ steps.assess-changes.outputs.CHANGELOG_UPDATED }}
 
     name: Test changed-files
     steps:
@@ -38,5 +38,6 @@ jobs:
             else
               echo "Changelog not updated"
             fi
-          echo "$CHANGELOG_UPDATED"
           done
+      - name: temp, print out
+       run: echo ${{ steps.assess-changes.outputs.CHANGELOG_UPDATED }}
