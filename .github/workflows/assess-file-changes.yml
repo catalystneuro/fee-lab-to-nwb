@@ -39,5 +39,3 @@ jobs:
               echo "Changelog not updated"
             fi
           done
-      - name: temp, print out
-        run: echo ${{ steps.assess-changes.outputs.CHANGELOG_UPDATED }}
