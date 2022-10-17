@@ -28,14 +28,15 @@ jobs:
       - name: Assess Changes
         id: assess-changes
         run: |
-          echo "::set-output name=CHANGELOG_UPDATED::false"
+          echo "CHANGELOG_UPDATED=false" >> $GITHUB_OUTPUT
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             echo $file
             if [[ $file == "CHANGELOG.md" ]]
             then
               echo "Changelog updated"
-              echo "CHANGELOG_UPDATED='true'" >> $GITHUB_OUTPUT
+              echo "CHANGELOG_UPDATED=true" >> $GITHUB_OUTPUT
             else
               echo "Changelog not updated"
             fi
+          echo "$CHANGELOG_UPDATED"
           done
