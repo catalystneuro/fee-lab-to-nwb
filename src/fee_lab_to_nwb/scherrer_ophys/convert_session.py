@@ -7,7 +7,7 @@ from natsort import natsorted
 from neuroconv.utils import load_dict_from_file, dict_deep_update
 
 from fee_lab_to_nwb.scherrer_ophys import ScherrerOphysNWBConverter
-from utils import get_timestamps_from_csv
+from utils import get_timestamps_from_csv, shift_timestamps_to_start_from_zero
 
 # The base folder path for the calcium imaging data
 ophys_folder_path = Path("/Volumes/t7-ssd/fee-lab-to-nwb/ophys")
@@ -52,9 +52,18 @@ source_data = dict(
     ),
 )
 
-timestamps = get_timestamps_from_csv(file_path=behavior_data_file_path)
+ophys_times = get_timestamps_from_csv(file_path=ophys_timestamp_file_path)
+behavior_times = get_timestamps_from_csv(file_path=behavior_data_file_path)
+# The timings of optical imaging are missing timezone information, therefore
+# we are adding the timezone information to the first time to get the offset
+tzinfo = behavior_times[0].tz if behavior_times[0].tz is not None else ZoneInfo("US/Eastern")
+offset = behavior_times[0] - ophys_times[0].replace(tzinfo=tzinfo)
+offset_in_seconds = offset.total_seconds()
+unadjusted_timestamps = shift_timestamps_to_start_from_zero(timestamps=behavior_times)
+adjusted_timestamps = list(unadjusted_timestamps + offset_in_seconds)
+
 conversion_options = dict(
-    Movie=dict(external_mode=True, timestamps=timestamps),
+    Movie=dict(external_mode=True, timestamps=adjusted_timestamps),
 )
 
 ophys_dataset_converter = ScherrerOphysNWBConverter(source_data=source_data)
@@ -63,7 +72,7 @@ metadata = ophys_dataset_converter.get_metadata()
 metadata = dict_deep_update(metadata, metadata_from_yaml)
 
 session_start_time = datetime.strptime(ophys_dataset_timestamp, "%Y-%m-%dT%H_%M_%S")
-session_start_time = session_start_time.replace(tzinfo=ZoneInfo("US/Eastern"))
+session_start_time = session_start_time.replace(tzinfo=tzinfo)
 
 metadata["NWBFile"].update(
     session_start_time=str(session_start_time),
