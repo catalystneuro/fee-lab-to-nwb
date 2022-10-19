@@ -71,11 +71,11 @@ ophys_dataset_converter = ScherrerOphysNWBConverter(source_data=source_data)
 metadata = ophys_dataset_converter.get_metadata()
 metadata = dict_deep_update(metadata, metadata_from_yaml)
 
-session_start_time = datetime.strptime(ophys_dataset_timestamp, "%Y-%m-%dT%H_%M_%S")
-session_start_time = session_start_time.replace(tzinfo=tzinfo)
+# Use the first timestamp from the imaging recording as the start time of the session.
+session_start_time = ophys_times[0].replace(tzinfo=tzinfo)
 
 metadata["NWBFile"].update(
-    session_start_time=str(session_start_time),
+    session_start_time=session_start_time,
     session_id=ophys_dataset_timestamp,
 )
 
