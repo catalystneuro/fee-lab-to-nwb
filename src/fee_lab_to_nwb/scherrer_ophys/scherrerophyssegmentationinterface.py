@@ -2,7 +2,10 @@ from neuroconv.datainterfaces import ExtractSegmentationInterface
 from neuroconv.utils import calculate_regular_series_rate, FilePathType
 from roiextractors import ExtractSegmentationExtractor
 
-from fee_lab_to_nwb.scherrer_ophys.utils import get_timestamps_from_csv
+from fee_lab_to_nwb.scherrer_ophys.utils import (
+    get_timestamps_from_csv,
+    shift_timestamps_to_start_from_zero,
+)
 
 
 class ScherrerOphysSegmentationInterface(ExtractSegmentationInterface):
@@ -24,6 +27,7 @@ class ScherrerOphysSegmentationInterface(ExtractSegmentationInterface):
         )
 
         timestamps = get_timestamps_from_csv(file_path=timestamps_file_path)
+        timestamps = shift_timestamps_to_start_from_zero(timestamps=timestamps)
         if not calculate_regular_series_rate(timestamps):
             # only use timestamps if they are not regular
             self.segmentation_extractor.set_times(times=timestamps)
