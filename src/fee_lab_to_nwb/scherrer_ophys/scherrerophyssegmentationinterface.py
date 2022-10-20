@@ -81,6 +81,11 @@ class ScherrerOphysSegmentationInterface(ExtractSegmentationInterface):
                     config_value = config_value[0]
             if docval_arg["type"] == bool:
                 config_value = bool(config_value)
+
+            if not isinstance(config_value, docval_arg["type"]):
+                raise ValueError(f"The data type {type(config_value)} for '{config_name}' does not match "
+                                 f"the expected {docval_arg['type']} type."
+                                 f"If this is intended, please open an issue at https://github.com/catalystneuro/ndx-extract/issues.")
             extract_segmentation_kwargs[config_name] = config_value
 
         return extract_segmentation_kwargs
