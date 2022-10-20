@@ -5,7 +5,7 @@ on:
 
 jobs:
   assess-file-changes:
-    uses: catalystneuro/fee-lab-to-nwb/.github/workflows/assess-file-changes.yml@changelog_detector
+    uses: catalystneuro/fee-lab-to-nwb/.github/workflows/assess-file-changes.yml@main
 
   detect-changelog-updates:
     needs: assess-file-changes
