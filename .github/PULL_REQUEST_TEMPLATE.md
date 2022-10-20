@@ -1,3 +1,0 @@
-## Checklist
-
-- [ ] Update `CHANGELOG.md`
