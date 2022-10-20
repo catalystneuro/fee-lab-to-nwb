@@ -10,6 +10,10 @@
   the motif timestamps. [PR #33](https://github.com/catalystneuro/fee-lab-to-nwb/pull/33)
 * Adjusted `session_start_time` for ophys to reference the first time entry from imaging timestamps. [PR #43](https://github.com/catalystneuro/fee-lab-to-nwb/pull/43)
 
+### Features
+* The `ScherrerOphysSegmentationInterface` is modified to write the configurations
+  from EXTRACT segmentation to the NWB File. [PR #42](https://github.com/catalystneuro/fee-lab-to-nwb/pull/42)
+
 ### Testing
 * Added auto-detector workflow for CHANGELOG.md updates. [PR #41](https://github.com/catalystneuro/fee-lab-to-nwb/pull/41)
 
