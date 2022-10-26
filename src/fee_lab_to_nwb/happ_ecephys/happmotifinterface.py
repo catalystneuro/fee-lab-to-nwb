@@ -136,11 +136,8 @@ class MotifInterface(BaseDataInterface):
         )
 
         # Create a hierarchical table with syllables and motif timestamps
-        motifs_table = self.create_hierarchical_table_from_motif_timestamps(motif_timestamps=motif_timestamps)
-
-        # Create behavioral processing module
-        behavior_module = nwbfile.create_processing_module(
-            name="behavior", description="The auditory stimulus of syllables and motifs."
+        motifs_table = self.create_hierarchical_table_from_syllables(
+            syllables=nwbfile.trials,
         )
-        # Add the hierarchical table to the processing module
-        behavior_module.add(motifs_table)
+        # Add motifs as time intervals
+        nwbfile.add_time_intervals(motifs_table)
