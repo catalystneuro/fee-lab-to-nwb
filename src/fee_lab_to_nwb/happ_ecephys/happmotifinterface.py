@@ -83,23 +83,13 @@ class MotifInterface(BaseDataInterface):
                 syllable_names.append(syllable["Syllable"])
                 syllable_start_time = syllable_end_time + syllable["Subsequent Silence (sec)"]
 
-        # Create the TimeIntervals for syllables
-        for (syllable_name, (start_time, end_time)) in zip(
-            syllable_names, zip(syllable_start_times, syllable_end_times)
-        ):
-            syllables.add_interval(
-                label=syllable_name,
-                start_time=start_time,
-                stop_time=end_time,
-            )
-
-        return syllables
+        return syllable_start_times, syllable_end_times, syllable_names
 
     def create_hierarchical_table_from_syllables(self, syllables: TimeIntervals):
         """Create a hierarchical table from the timings of motifs.
         The lowest hierarchical level is the level of syllables."""
         motifs_table = HierarchicalBehavioralTable(
-            name="trials",
+            name="Motifs",
             description="The timings of motifs.",
             lower_tier_table=syllables,
         )
@@ -131,14 +121,24 @@ class MotifInterface(BaseDataInterface):
         # Synchronize the timestamps of motifs with the SpikeGLX timestamps
         motif_timestamps = self.get_synchronized_motif_timestamps()
 
-        # The TimeIntervals for syllables
-        syllables = self.get_syllables_from_motif_timetamps(motif_timestamps=motif_timestamps)
+        # Get syllable timings
+        syllable_start_times, syllable_end_times, syllable_names = self.get_syllables_from_motif_timetamps(
+            motif_timestamps=motif_timestamps
+        )
+
+        # Add syllables as trials
+        for start_time, stop_time in zip(syllable_start_times, syllable_end_times):
+            nwbfile.add_trial(start_time=start_time, stop_time=stop_time)
+
+        nwbfile.add_trial_column(
+            name="syllable_name",
+            description="Identifier of the syllable.",
+            data=list(syllable_names),
+        )
 
         # Create a hierarchical table with syllables and motif timestamps
         motifs_table = self.create_hierarchical_table_from_syllables(
-            syllables=syllables,
+            syllables=nwbfile.trials,
         )
-        # Set the trials table to motifs
-        nwbfile.trials = motifs_table
-        # Add the syllables to the NWBFile
-        nwbfile.add_time_intervals(syllables)
+        # Add motifs as time intervals
+        nwbfile.add_time_intervals(motifs_table)
