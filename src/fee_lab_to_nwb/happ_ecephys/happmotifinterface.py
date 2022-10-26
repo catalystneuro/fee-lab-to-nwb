@@ -54,35 +54,27 @@ class MotifInterface(BaseDataInterface):
 
         return motif_timestamps
 
-    def create_hierarchical_table_from_motif_timestamps(self, motif_timestamps: ArrayType):
-        """Create a hierarchical table from the timings of motifs.
-        The lowest hierarchical level is the level of syllables. The number of
-        syllables within a motif is assumed to be fixed per experiment. The latency
-        of each syllable is fixed for now, but should be modified in the future given
-        more information about the mapping between motifs and syllables."""
-        syllables = TimeIntervals(name="Syllables", description="desc")
+    def get_syllables_from_motif_timetamps(self, motif_timestamps: np.ndarray):
+        """Returns the timings of syllables using the onset times of the motifs."""
+        syllables = TimeIntervals(name="Syllables", description="The timings of syllables.")
         syllables.add_column("label", "The label of syllable.")
+        syllable_start_times, syllable_end_times, syllable_names = [], [], []
+        motif_syllable_mapping = self.motif_syllable_mapping
+        for motif_name, motif_start_time in zip(self.motifs[:, 0], motif_timestamps):
+            if len(self.motif_syllable_mapping["Song number"].value_counts()) > 1:
+                motif_syllable_mapping = self.motif_syllable_mapping.loc[
+                    self.motif_syllable_mapping["Motif name"] == motif_name
+                ]
+            # The first syllable onset in a motif is the same as the motif onset time
+            syllable_start_time = motif_start_time
+            for _, syllable in motif_syllable_mapping.iterrows():
+                syllable_start_times.append(syllable_start_time)
+                syllable_end_time = syllable_start_time + syllable["Length (seconds)"]
+                syllable_end_times.append(syllable_end_time)
+                syllable_names.append(syllable["Syllable"])
+                syllable_start_time = syllable_end_time + syllable["Subsequent Silence (sec)"]
 
-        syllables_start_times, syllables_end_times = [], []
-        motif_start_times = list(motif_timestamps[::1])
-        motif_end_times = list(motif_timestamps[1::])
-        motif_end_times.append(np.nan)  # the last num_syllables_per_motif will be nan
-        for (start_time, end_time) in zip(motif_start_times, motif_end_times):
-            # Construct the timings of syllables from motif timestamps,
-            # assuming that the number of syllables within motifs are ALWAYS the same.
-            syllable_onset_times = np.linspace(
-                start=start_time,
-                stop=end_time,
-                num=self.num_syllables_per_motif,
-                endpoint=False,
-            )
-            syllables_start_times.extend(syllable_onset_times)
-            # Until we can reverse-engineer the latency of each syllable from the mapping
-            syllables_latency = np.nanmedian(np.diff(syllable_onset_times))
-            syllables_end_times.extend(syllable_onset_times + syllables_latency)
-
-        # Until we lack the mapping between motifs and syllables we assume these labels
-        syllables_labels = ["a", "b", "c", "d", "e"] * len(motif_timestamps)
+        return syllable_start_times, syllable_end_times, syllable_names
 
         for (syllable_label, (start_time, end_time)) in zip(
             syllables_labels, zip(syllables_start_times, syllables_end_times)
@@ -117,6 +109,22 @@ class MotifInterface(BaseDataInterface):
 
         # Synchronize the timestamps of motifs with the SpikeGLX timestamps
         motif_timestamps = self.get_synchronized_motif_timestamps()
+
+        # Get syllable timings
+        syllable_start_times, syllable_end_times, syllable_names = self.get_syllables_from_motif_timetamps(
+            motif_timestamps=motif_timestamps
+        )
+
+        # Add syllables as trials
+        for start_time, stop_time in zip(syllable_start_times, syllable_end_times):
+            nwbfile.add_trial(start_time=start_time, stop_time=stop_time)
+
+        nwbfile.add_trial_column(
+            name="syllable_name",
+            description="Identifier of the syllable.",
+            data=list(syllable_names),
+        )
+
         # Create a hierarchical table with syllables and motif timestamps
         motifs_table = self.create_hierarchical_table_from_motif_timestamps(motif_timestamps=motif_timestamps)
 
