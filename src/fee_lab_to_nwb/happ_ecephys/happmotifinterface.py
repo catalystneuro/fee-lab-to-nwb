@@ -12,7 +12,12 @@ from scipy.io import loadmat
 class MotifInterface(BaseDataInterface):
     """Data interface for adding timing of the motifs as trials to the NWB file."""
 
-    def __init__(self, file_path: str, sync_file_path: str, num_syllables_per_motif: int = 5):
+    def __init__(
+        self,
+        file_path: str,
+        sync_file_path: str,
+        motif_syllable_mapping: dict,
+    ):
         """
         Create the interface for writing the timing of the motifs to the NWB file.
         The motifs are added as trials.
@@ -23,11 +28,13 @@ class MotifInterface(BaseDataInterface):
             The path to the file containing the timing of the motifs.
         sync_file_path: str
             The path to the file containing the Audio and SpikeGLX timestamps for synchronization.
+        motif_syllable_mapping: dict
+            The dictionary that contains the duration of syllables and to which motif they belong.
         """
         super().__init__(file_path=file_path)
         self.sync_file_path = sync_file_path
-        self.motifs = self.read_motif_data()
-        self.num_syllables_per_motif = num_syllables_per_motif
+        self.motifs = self.read_motif_timing_data()
+        self.motif_syllable_mapping = pd.DataFrame.from_dict(motif_syllable_mapping)
 
     def read_motif_data(self):
         """Reads the .mat file containing the timing of the motifs.
