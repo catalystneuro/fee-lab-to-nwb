@@ -36,9 +36,10 @@ class MotifInterface(BaseDataInterface):
         self.motifs = self.read_motif_timing_data()
         self.motif_syllable_mapping = pd.DataFrame.from_dict(motif_syllable_mapping)
 
-    def read_motif_data(self):
+    def read_motif_timing_data(self):
         """Reads the .mat file containing the timing of the motifs.
         Returns the identifier and timing of the motifs."""
+        # todo: add syll_phase_timingData
         motif_data = loadmat(self.source_data["file_path"], squeeze_me=True, mat_dtype=True)
         assert "motifTimingData" in motif_data, "'motifTimingData' should be in file."
 
