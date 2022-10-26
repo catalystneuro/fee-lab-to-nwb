@@ -1,9 +1,10 @@
 from typing import Optional
 
 import numpy as np
+import pandas as pd
+
 from ndx_hierarchical_behavioral_data import HierarchicalBehavioralTable
 from neuroconv.basedatainterface import BaseDataInterface
-from neuroconv.utils import ArrayType
 from pynwb import NWBFile
 from pynwb.epoch import TimeIntervals
 from scipy.io import loadmat
