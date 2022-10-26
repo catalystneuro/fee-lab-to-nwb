@@ -84,27 +84,29 @@ class MotifInterface(BaseDataInterface):
 
         return syllable_start_times, syllable_end_times, syllable_names
 
-        for (syllable_label, (start_time, end_time)) in zip(
-            syllables_labels, zip(syllables_start_times, syllables_end_times)
-        ):
-            syllables.add_interval(
-                label=syllable_label,
-                start_time=start_time,
-                stop_time=end_time,
-            )
-
+    def create_hierarchical_table_from_syllables(self, syllables: TimeIntervals):
+        """Create a hierarchical table from the timings of motifs.
+        The lowest hierarchical level is the level of syllables."""
         motifs_table = HierarchicalBehavioralTable(
             name="Motifs",
             description="The timings of motifs.",
             lower_tier_table=syllables,
         )
-        motifs_table.add_column("motif_name", "The name of motif.")
 
-        for motif_ind, motif_label in enumerate(self.motifs[:, 0]):
+        syllable_names = self.motif_syllable_mapping["Syllable"].values
+        for motif_ind, motif_name in enumerate(self.motifs[:, 0]):
+            if len(self.motif_syllable_mapping["Song number"].value_counts()) > 1:
+                motif_syllable_mapping = self.motif_syllable_mapping.loc[
+                    self.motif_syllable_mapping["Motif name"] == motif_name
+                ]
+                syllable_names = motif_syllable_mapping["Syllable"].values
+
+            start = len(syllable_names) * motif_ind
+            stop = len(syllable_names) + start
+            next_tier = list(np.arange(start=start, stop=stop))
             motifs_table.add_interval(
-                motif_name=motif_label.split("_")[1],
-                label=motif_label,
-                next_tier=np.arange(0, self.num_syllables_per_motif) + (self.num_syllables_per_motif * motif_ind),
+                label=motif_name,
+                next_tier=next_tier,
             )
 
         return motifs_table
