@@ -1,3 +1,4 @@
+import re
 from typing import Optional
 
 import numpy as np
@@ -8,6 +9,12 @@ from neuroconv.basedatainterface import BaseDataInterface
 from pynwb import NWBFile
 from pynwb.epoch import TimeIntervals
 from scipy.io import loadmat
+
+
+def check_syllable_name(value_from_excel, value_to_check):
+    matched_pattern = re.findall(pattern="(\d+)([a-zA-Z]+)", string=value_from_excel)[0]
+
+    return value_to_check in [f"{matched_pattern[1]}{matched_pattern[0]}", f"{matched_pattern[0]}{matched_pattern[1]}"]
 
 
 class MotifInterface(BaseDataInterface):
@@ -139,8 +146,22 @@ class MotifInterface(BaseDataInterface):
 
         # Create a hierarchical table with syllables and motif timestamps
         motifs_table = self.create_hierarchical_table_from_syllables(
-            syllables=syllables,
+            syllables=syllables_table,
         )
+
+        if self.syllable_timestamps is not None:
+            syllable_timestamps = self.synchronize_timestamps(timestamps=self.syllable_timestamps)
+            # Assuming that the individual syllables are at the end, but we should test for continuity
+            for syllable_name, syllable_start_time in zip(self.syllable_names, syllable_timestamps):
+                syllable_silence_duration = self.motif_syllable_mapping.loc[
+                    self.motif_syllable_mapping["Syllable"].apply(lambda x: check_syllable_name(x, syllable_name))
+                ]["Subsequent Silence (sec)"].values[0]
+                silence_duration = syllable_silence_duration or 0.02
+                syllables_table.add_interval(
+                    label=syllable_name,
+                    start_time=syllable_start_time,
+                    stop_time=syllable_start_time + silence_duration,
+                )
         # Set the trials table to motifs
         nwbfile.trials = motifs_table
         # Add the syllables to the NWBFile
