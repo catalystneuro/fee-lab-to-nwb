@@ -108,7 +108,7 @@ class MotifInterface(BaseDataInterface):
         )
 
         syllable_names = self.motif_syllable_mapping["Syllable"].values
-        for motif_ind, motif_name in enumerate(self.motifs[:, 0]):
+        for motif_ind, motif_name in enumerate(self.motif_names):
             if len(self.motif_syllable_mapping["Song number"].value_counts()) > 1:
                 motif_syllable_mapping = self.motif_syllable_mapping.loc[
                     self.motif_syllable_mapping["Motif name"] == motif_name
@@ -132,10 +132,10 @@ class MotifInterface(BaseDataInterface):
     ):
 
         # Synchronize the timestamps of motifs with the SpikeGLX timestamps
-        motif_timestamps = self.get_synchronized_motif_timestamps()
+        motif_timestamps = self.synchronize_timestamps(timestamps=self.motif_timestamps)
 
         # The TimeIntervals for syllables
-        syllables = self.get_syllables_from_motif_timetamps(motif_timestamps=motif_timestamps)
+        syllables_table = self.get_syllables_from_motif_timetamps(motif_timestamps=motif_timestamps)
 
         # Create a hierarchical table with syllables and motif timestamps
         motifs_table = self.create_hierarchical_table_from_syllables(
@@ -144,4 +144,4 @@ class MotifInterface(BaseDataInterface):
         # Set the trials table to motifs
         nwbfile.trials = motifs_table
         # Add the syllables to the NWBFile
-        nwbfile.add_time_intervals(syllables)
+        nwbfile.add_time_intervals(syllables_table)
