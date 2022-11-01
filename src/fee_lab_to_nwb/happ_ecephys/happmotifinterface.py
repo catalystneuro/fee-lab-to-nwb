@@ -34,15 +34,23 @@ class MotifInterface(BaseDataInterface):
         """
         super().__init__(file_path=file_path)
         self.sync_file_path = sync_file_path
-        self.motifs = self.read_motif_timing_data()
+        motifs = self.read_motif_timing_data()
+        motif_struct_name = "motifTimingData"
+        assert motif_struct_name in motifs, f"'{motif_struct_name}' should be in file."
+        self.motif_names = motifs[motif_struct_name][:, 0]
+        self.motif_timestamps = motifs[motif_struct_name][:, 1]
+        # The syllables experiment has a separate column for syllables timings
+        syllable_struct_name = "syll_phase_timingData"
+        self.syllable_names = None
+        self.syllable_timestamps = None
+        if syllable_struct_name in motifs:
+            self.syllable_names = motifs[syllable_struct_name][:, 0]
+            self.syllable_timestamps = motifs[syllable_struct_name][:, 1]
         self.motif_syllable_mapping = pd.DataFrame.from_dict(motif_syllable_mapping)
 
     def read_motif_timing_data(self):
-        """Reads the .mat file containing the timing of the motifs.
-        Returns the identifier and timing of the motifs."""
-        # todo: add syll_phase_timingData
-        motif_data = loadmat(self.source_data["file_path"], squeeze_me=True, mat_dtype=True)
-        assert "motifTimingData" in motif_data, "'motifTimingData' should be in file."
+        """Reads the .mat file containing the timing of the motifs."""
+        return loadmat(self.source_data["file_path"], squeeze_me=True, mat_dtype=True)
 
         motifs = motif_data["motifTimingData"]
         return motifs
