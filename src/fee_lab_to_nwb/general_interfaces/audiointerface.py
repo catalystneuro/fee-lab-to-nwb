@@ -55,7 +55,7 @@ class AudioInterface(BaseDataInterface):
 
         audio_metadata = metadata["Behavior"]["Audio"][0]
         # Early return if acoustic waveform series already exists in the NWB file
-        if audio_metadata["name"] in nwbfile.acquisition:
+        if audio_metadata["name"] in nwbfile.stimulus:
             return
 
         # Load the audio file.
@@ -86,9 +86,8 @@ class AudioInterface(BaseDataInterface):
         # Create AcousticWaveformSeries with ndx-sound
         acoustic_waveform_series = AcousticWaveformSeries(**acoustic_waveform_series_kwargs)
 
-        # Add audio recording to nwbfile as acquisition
-        # TODO: double check if this is indeed acquired and not stimuli
-        nwbfile.add_acquisition(acoustic_waveform_series)
+        # Add audio recording to nwbfile as stimulus
+        nwbfile.add_stimulus(acoustic_waveform_series)
 
     def run_conversion(
         self,

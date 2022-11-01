@@ -1,0 +1,41 @@
+name: Assess file changes
+
+on:
+  workflow_call:
+    # Map the workflow outputs to job outputs
+    outputs:
+      CHANGELOG_UPDATED:
+        description: "Whether or the CHANGELOG.md file was updated."
+        value: ${{ jobs.build.outputs.CHANGELOG_UPDATED }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # Map the job outputs to step outputs
+    outputs:
+      CHANGELOG_UPDATED: ${{ steps.assess-changes.outputs.CHANGELOG_UPDATED }}
+
+    name: Test changed-files
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v29.0.4
+
+      - name: Assess Changes
+        id: assess-changes
+        run: |
+          echo "CHANGELOG_UPDATED=false" >> $GITHUB_OUTPUT
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo $file
+            if [[ $file == "CHANGELOG.md" ]]
+            then
+              echo "Changelog updated"
+              echo "CHANGELOG_UPDATED=true" >> $GITHUB_OUTPUT
+            else
+              echo "Changelog not updated"
+            fi
+          done
