@@ -98,7 +98,7 @@ class MotifInterface(BaseDataInterface):
 
         return syllables_table
 
-    def create_hierarchical_table_from_syllables(self, syllables: TimeIntervals):
+    def create_hierarchical_table_from_syllables(self, syllables: TimeIntervals) -> HierarchicalBehavioralTable:
         """Create a hierarchical table from the timings of motifs.
         The lowest hierarchical level is the level of syllables."""
         motifs_table = HierarchicalBehavioralTable(
