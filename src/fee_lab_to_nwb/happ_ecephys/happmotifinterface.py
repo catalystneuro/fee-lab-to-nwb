@@ -66,13 +66,13 @@ class MotifInterface(BaseDataInterface):
 
         return timestamps
 
-    def get_syllables_from_motif_timetamps(self, motif_timestamps: np.ndarray):
+    def get_syllables_from_motif_timetamps(self, motif_timestamps: np.ndarray) -> TimeIntervals:
         """Returns the timings of syllables using the onset times of the motifs."""
-        syllables = TimeIntervals(name="Syllables", description="The timings of syllables.")
-        syllables.add_column("label", "The label of syllable.")
+        syllables_table = TimeIntervals(name="Syllables", description="The timings of syllables.")
+        syllables_table.add_column("label", "The label of syllable.")
         syllable_start_times, syllable_end_times, syllable_names = [], [], []
         motif_syllable_mapping = self.motif_syllable_mapping
-        for motif_name, motif_start_time in zip(self.motifs[:, 0], motif_timestamps):
+        for motif_name, motif_start_time in zip(self.motif_names, motif_timestamps):
             if len(self.motif_syllable_mapping["Song number"].value_counts()) > 1:
                 motif_syllable_mapping = self.motif_syllable_mapping.loc[
                     self.motif_syllable_mapping["Motif name"] == motif_name
@@ -90,13 +90,13 @@ class MotifInterface(BaseDataInterface):
         for (syllable_name, (start_time, end_time)) in zip(
             syllable_names, zip(syllable_start_times, syllable_end_times)
         ):
-            syllables.add_interval(
+            syllables_table.add_interval(
                 label=syllable_name,
                 start_time=start_time,
                 stop_time=end_time,
             )
 
-        return syllables
+        return syllables_table
 
     def create_hierarchical_table_from_syllables(self, syllables: TimeIntervals):
         """Create a hierarchical table from the timings of motifs.
