@@ -1,55 +1,37 @@
+from datetime import datetime
+
 import pandas as pd
 from neuroconv.utils import FilePathType
-from numpy import datetime64
 
 
-def create_session_table(
-    file_path: str,
-    sheet_names: list = [
-        "session repository",
-        "mappings",
-    ],
-):
-    dataset_log = pd.read_excel(
-        file_path,
-        sheet_name=sheet_names,
-    )
-    session_table = dataset_log["session repository"]
-    mappings_table = dataset_log["mappings"]
-
-    # Match stimulus dates from syllables table to session names
-    # Create session name from 'Recording Date'
-    recording_dates = session_table["Recording Date"].dt.strftime("%Y%m%d")
-    # Most session names are in {bird_id}_{YYmmDD} format
-    bird_ids = session_table["Bird"].astype(str)
-    recording_dates = recording_dates.astype(str).apply(lambda x: x[2:])
-    session_table["session_name_id"] = bird_ids + "_" + recording_dates
-
-    bird_ids_from_mappings = mappings_table["Session Name"].apply(lambda x: x.split("_")[0])
-
-    dates_from_mappings = mappings_table["Session Name"].apply(lambda x: x.split("_")[1])
-
-    # Unify exceptions that follow {bird_id}_{YYDDmm} format
-    date_exceptions = dates_from_mappings.loc[mappings_table["Experiment Type"] == "Timing"]
-    dates = date_exceptions.apply(lambda x: ("").join([x[:2], x[-2:], x[2:4]]))
-    dates_from_mappings.loc[mappings_table["Experiment Type"] == "Timing"] = dates
-
-    mappings_table["session_name_id"] = bird_ids_from_mappings + "_" + dates_from_mappings
-
-    session_table_with_mappings = pd.merge(
-        left=mappings_table,
-        right=session_table,
-        on="session_name_id",
-        how="left",
-    )
-
-    return session_table_with_mappings
+def parse_session_date(session_date: str) -> datetime:
+    for date_format in ["%y%m%d", "%y%d%m"]:
+        try:
+            return datetime.strptime(session_date, date_format)
+        except ValueError:
+            continue
+    raise ValueError("No valid date format found.")
 
 
-def get_syllables_table_for_stim_date(
+def get_motif_syllables_table_for_session_date(
     file_path: FilePathType,
-    stim_date: datetime64,
-    sheet_name: str = "motif_syllable_mapping",
-):
-    syllables_table = pd.read_excel(file_path, sheet_name=sheet_name)
-    return syllables_table.loc[syllables_table["Stim Date"] == stim_date]
+    session_date: str,
+    sheet_names: list = None,
+    recording_date_column_name: str = "Recording Date",
+    stimulus_date_column_name: str = "Stim",
+) -> pd.DataFrame:
+    if sheet_names is None:
+        sheet_names = ["session repository", "motif_syllable_mapping"]
+    dataset_log = pd.read_excel(file_path, sheet_name=sheet_names)
+    session_table = dataset_log["session repository"]
+    syllables_table = dataset_log["motif_syllable_mapping"]
+
+    # Parse the date of the session and match it with a recording date from the session repository table.
+    session_date_dt = parse_session_date(session_date=session_date)
+    stim_date = session_table.loc[
+        session_table[recording_date_column_name] == session_date_dt, stimulus_date_column_name
+    ]
+    # The syllables table is filtered for this stimulus date
+    syllables_table_for_this_session = syllables_table.loc[syllables_table[stimulus_date_column_name].isin(stim_date)]
+
+    return syllables_table_for_this_session
