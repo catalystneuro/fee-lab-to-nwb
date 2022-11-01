@@ -5,12 +5,10 @@ from zoneinfo import ZoneInfo
 from neuroconv.utils import dict_deep_update, load_dict_from_file
 
 from fee_lab_to_nwb.happ_ecephys import HappEcephysNWBConverter
-from fee_lab_to_nwb.happ_ecephys.utils import create_session_table, get_syllables_table_for_stim_date
+from fee_lab_to_nwb.happ_ecephys.utils import get_motif_syllables_table_for_session_date
 
 # The base folder path for the SpikeGLX data
 ecephys_dataset_path = Path("D:/Neuropixel")
-# The filepath to the Neuropixels Dataset Log
-ecephys_dataset_log_path = "Neuropixels_Dataset_Log.xlsx"
 
 # The name of the session
 session_name = "7635_210729_LH_NCM"
@@ -23,18 +21,12 @@ session_description = (
     f"the {hemisphere_readable} of Caudomedial Nidopallium ({region}) region."
 )
 
-
-# need to match session_name to a stimulus date (hence the join of tables)
-# I think we should create another folder with motifs/ and put the interface along with
-# the shipped dataset log together.
-session_table = create_session_table(file_path=ecephys_dataset_log_path)
-# Find the stim date for this session
-stim_date = session_table.loc[session_table["Session Name"] == session_name, "Stim"].values[0]
-
-# the dataframe with the motif: syllables mappings
-syllables_table = get_syllables_table_for_stim_date(
+# The filepath to the Neuropixels Dataset Log
+ecephys_dataset_log_path = Path(__file__).parent / "Neuropixels_Dataset_Log.xlsx"
+# The mapping between motifs and syllables
+motif_syllables_table = get_motif_syllables_table_for_session_date(
     file_path=ecephys_dataset_log_path,
-    stim_date=stim_date,
+    session_date=session_date,
 )
 
 # The file path to the .ap.bin file
@@ -58,7 +50,7 @@ source_data = dict(
     Motif=dict(
         file_path=str(motif_file_path),
         sync_file_path=str(sync_file_path),
-        motif_syllable_mapping=syllables_table.to_dict(),
+        motif_syllable_mapping=motif_syllables_table.to_dict(),
     ),
     Audio=dict(file_path=str(audio_file_path)),
 )
