@@ -28,6 +28,10 @@ motif_syllables_table = get_motif_syllables_table_for_session_date(
     file_path=ecephys_dataset_log_path,
     session_date=session_date,
 )
+# Add a description for this experiment type
+experiment_description = "no description"
+if "Stim Notes" in motif_syllables_table:
+    experiment_description = motif_syllables_table["Stim Notes"].drop_duplicates().values[0]
 
 # The file path to the .ap.bin file
 raw_file_path = experiment_folder / f"{session_name}_g0_imec0" / f"{session_name}_g0_t0.imec0.ap.bin"
@@ -81,8 +85,11 @@ if not session_start_time.tzinfo:
     metadata["NWBFile"].update(
         session_start_time=session_start_time.replace(tzinfo=ZoneInfo("US/Eastern")),
     )
-# Add session_description to NWBFile metadata
-metadata["NWBFile"].update(session_description=session_description)
+# Add metadata to NWBFile
+metadata["NWBFile"].update(
+    session_description=session_description,
+    experiment_description=experiment_description,
+)
 
 # For fast conversion enable stub_test
 # To convert the entire session use iterator_type="v2" for the SpikeGLX data
