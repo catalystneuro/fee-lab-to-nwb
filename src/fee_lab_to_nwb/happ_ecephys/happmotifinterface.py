@@ -52,13 +52,8 @@ class MotifInterface(BaseDataInterface):
         """Reads the .mat file containing the timing of the motifs."""
         return loadmat(self.source_data["file_path"], squeeze_me=True, mat_dtype=True)
 
-        motifs = motif_data["motifTimingData"]
-        return motifs
-
-    def get_synchronized_motif_timestamps(self):
+    def synchronize_timestamps(self, timestamps: np.ndarray) -> np.ndarray:
         """Synchronizes the timings of motifs with the SpikeGLX timestamps."""
-        motif_timestamps = self.motifs[:, 1]
-
         sync_data = loadmat(self.sync_file_path, squeeze_me=True, mat_dtype=True)
         assert "Audio_eventTimes" in sync_data, f"'Audio_eventTimes' should be in file."
         assert "IMEC_eventTimes" in sync_data, f"'IMEC_eventTimes' should be in file."
@@ -66,10 +61,10 @@ class MotifInterface(BaseDataInterface):
         audio_timestamps = sync_data["Audio_eventTimes"][0]
         imec_timestamps = sync_data["IMEC_eventTimes"][0]
 
-        indices = np.searchsorted(audio_timestamps, motif_timestamps)
-        motif_timestamps += imec_timestamps[indices] - audio_timestamps[indices]
+        indices = np.searchsorted(audio_timestamps, timestamps)
+        timestamps += imec_timestamps[indices] - audio_timestamps[indices]
 
-        return motif_timestamps
+        return timestamps
 
     def get_syllables_from_motif_timetamps(self, motif_timestamps: np.ndarray):
         """Returns the timings of syllables using the onset times of the motifs."""
