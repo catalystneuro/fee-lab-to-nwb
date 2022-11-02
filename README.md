@@ -20,7 +20,7 @@ following:
 ```
 git clone https://github.com/catalystneuro/fee-lab-to-nwb
 cd fee-lab-to-nwb
-conda env create --file make_env.yml
+conda env create --file make_conda_env.yml
 conda activate fee_lab_to_nwb_env
 ```
 
@@ -65,9 +65,9 @@ Each conversion is organized in a directory of its own in the `src` directory:
         │   ├── general_interfaces
         │   └── scherrer_ophys
         │       ├── convert_session.py
-        │       ├── scherrer_ophys_metadata.yml
-        │       ├── scherrer_ophys_notes.md
-        │       ├── scherrer_ophys_requirements.txt
+        │       ├── metadata.yml
+        │       ├── notes.md
+        │       ├── requirements.txt
         │       ├── scherrerophysimagingextractor.py
         │       ├── scherrerophysimaginginterface.py
         │       ├── scherrerophysnwbconverter.py
@@ -80,9 +80,9 @@ in `src/fee-lab-to-nwb/scherrer_ophys`. Inside the conversion directory you can
 find the following files:
 
 * `convert_session.py`: this is the central script that you must run in order to perform the full conversion.
-* `scherrer_ophys_metadata.yml`: metadata in yaml format for this specific conversion.
-* `scherrer_ophys_notes.yml`: notes and comments about the source data.
-* `scherrer_ophys_requirements.txt`: dependencies specific to this conversion.
+* `metadata.yml`: metadata in yaml format for this specific conversion.
+* `notes.md`: notes and comments about the source data.
+* `requirements.txt`: dependencies specific to this conversion.
 
 The other files that are necessary this specific conversion:
 * `scherrerophysimagingextractor.py`: the extractor for a single ophys file.
@@ -94,7 +94,7 @@ The directory might contain other files that are necessary for the conversion bu
 ## Running a specific conversion
 To run a specific conversion, you might need to install first some conversion specific dependencies that are located in each conversion directory:
 ```
-pip install -r src/fee_lab_to_nwb/scherrer_ophys/scherrer_ophys_requirements.txt
+pip install -r src/fee_lab_to_nwb/scherrer_ophys/requirements.txt
 ```
 
 You can run a specific conversion with the following command:

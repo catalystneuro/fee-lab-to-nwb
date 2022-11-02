@@ -63,7 +63,7 @@ source_data = dict(
 nwbfile_path = f"{experiment_folder}/{session_name}.nwb"
 
 # The metadata file path
-metadata_path = "happ_ecephys_metadata.yml"
+metadata_path = Path(__file__).parent / "metadata.yml"
 metadata_from_yaml = load_dict_from_file(metadata_path)
 
 # The converter that combines the input streams into a single conversion
