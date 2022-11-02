@@ -4,6 +4,7 @@
 * Add auditory data to the NWB file as stimulus instead of acquisition. [PR #37](https://github.com/catalystneuro/fee-lab-to-nwb/pull/37)
 * Removed "conversion", "starting_time" and "rate" key pops from TimeSeries metadata schema when
   constructing the metadata schema for `AudioInterface`. [PR #49](https://github.com/catalystneuro/fee-lab-to-nwb/pull/49)
+* Bumped `neuroconv` version to 0.2.2. [PR #52](https://github.com/catalystneuro/fee-lab-to-nwb/pull/52)
 
 ### Improvements
 * Create file for tracking changes. [PR #36](https://github.com/catalystneuro/fee-lab-to-nwb/pull/36)
