@@ -1,4 +1,4 @@
 opencv-python==4.5.5.64
 natsort>=8.2.0
-neuroconv[ophys]<=0.2.1
+neuroconv[ophys]==0.2.2
 ndx-extract==0.2.0
