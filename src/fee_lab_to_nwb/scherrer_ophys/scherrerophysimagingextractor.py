@@ -1,7 +1,7 @@
 from typing import Tuple, Optional
 
 import numpy as np
-from neuroconv.datainterfaces.behavior.movie.movie_utils import VideoCaptureContext
+from neuroconv.datainterfaces.behavior.video.video_utils import VideoCaptureContext
 from roiextractors import ImagingExtractor
 from neuroconv.utils import FilePathType, ArrayType
 from roiextractors.extraction_tools import NumpyArray
@@ -36,15 +36,15 @@ class ScherrerOphysImagingExtractor(ImagingExtractor):
         self._channel_names = ["channel_0"]
 
         with VideoCaptureContext(str(self.file_path)) as vc:
-            self._num_frames = vc.get_movie_frame_count()
+            self._num_frames = vc.get_video_frame_count()
             self._image_size = vc.get_frame_shape()[:-1]
-            self._sampling_frequency = vc.get_movie_fps()
+            self._sampling_frequency = vc.get_video_fps()
 
     def get_frames(self, frame_idxs: ArrayType, channel: int = 0) -> NumpyArray:
         frames = []
         for frame_index in frame_idxs:
             with VideoCaptureContext(str(self.file_path)) as vc:
-                rgb_frame = vc.get_movie_frame(frame_number=frame_index)
+                rgb_frame = vc.get_video_frame(frame_number=frame_index)
 
             gray_frame = convert_rgb_frame_to_grayscale(rgb_frame)
             frames.append(gray_frame[np.newaxis, ...])
