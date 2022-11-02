@@ -1,2 +1,3 @@
 ndx-sound
 openpyxl==3.0.10
+ndx-hierarchical-behavioral-data==0.1.1

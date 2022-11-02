@@ -2,6 +2,8 @@
 
 ### Fixes
 * Add auditory data to the NWB file as stimulus instead of acquisition. [PR #37](https://github.com/catalystneuro/fee-lab-to-nwb/pull/37)
+* Removed "conversion", "starting_time" and "rate" key pops from TimeSeries metadata schema when
+  constructing the metadata schema for `AudioInterface`. [PR #49](https://github.com/catalystneuro/fee-lab-to-nwb/pull/49)
 
 ### Improvements
 * Create file for tracking changes. [PR #36](https://github.com/catalystneuro/fee-lab-to-nwb/pull/36)
@@ -20,9 +22,15 @@
   since it has been corrected for incorrect stimulus dates that did not match the dates in the "session repository"
   sheet. The `NWBFile` metadata is also updated with a description of the session, and
   the species of the `Subject` is added to the `metadata.yml` file. [PR #45](https://github.com/catalystneuro/fee-lab-to-nwb/pull/45)
+* The `MotifInterface` is modified to add the timings of syllables along with the motifs.
+  The motifs are added to the trials table and is a `HierarchicalBehavioralTable` where the
+  lowest hierarchical level is the level of syllables. [PR #34](https://github.com/catalystneuro/fee-lab-to-nwb/pull/34)
 
 ### Testing
 * Added auto-detector workflow for CHANGELOG.md updates. [PR #41](https://github.com/catalystneuro/fee-lab-to-nwb/pull/41)
+
+### Documentation
+* Added a note about running the conversion scripts when the package was installed from `pip`. [PR #48](https://github.com/catalystneuro/fee-lab-to-nwb/pull/48)
 
 # v1.0.0
 
