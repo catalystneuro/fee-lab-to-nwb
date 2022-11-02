@@ -27,9 +27,6 @@ class AudioInterface(BaseDataInterface):
     def get_metadata_schema(self):
         metadata_schema = super().get_metadata_schema()
         time_series_metadata_schema = get_schema_from_hdmf_class(TimeSeries)
-        exclude = ["conversion", "starting_time", "rate"]
-        for key in exclude:
-            time_series_metadata_schema["properties"].pop(key)
         metadata_schema["properties"]["Behavior"] = get_base_schema(tag="Behavior")
         time_series_metadata_schema.update(required=["name"])
         metadata_schema["properties"]["Behavior"].update(
