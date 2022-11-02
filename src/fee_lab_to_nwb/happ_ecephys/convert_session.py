@@ -60,7 +60,7 @@ source_data = dict(
 )
 
 # The file path to the NWB file
-nwbfile_path = f"/Volumes/t7-ssd/7635_210729_LH_NCM_g0/{session_name}.nwb"
+nwbfile_path = f"{experiment_folder}/{session_name}.nwb"
 
 # The metadata file path
 metadata_path = "happ_ecephys_metadata.yml"
