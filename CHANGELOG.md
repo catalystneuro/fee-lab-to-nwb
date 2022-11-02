@@ -18,7 +18,8 @@
   from the "motif_syllable_mapping" sheet which contains for each motif the syllable name,
   its duration and the duration of silence after the syllable. The file is added to the repository,
   since it has been corrected for incorrect stimulus dates that did not match the dates in the "session repository"
-  sheet. [PR #45](https://github.com/catalystneuro/fee-lab-to-nwb/pull/45)
+  sheet. The `NWBFile` metadata is also updated with a description of the session, and
+  the species of the `Subject` is added to the `metadata.yml` file. [PR #45](https://github.com/catalystneuro/fee-lab-to-nwb/pull/45)
 
 ### Testing
 * Added auto-detector workflow for CHANGELOG.md updates. [PR #41](https://github.com/catalystneuro/fee-lab-to-nwb/pull/41)
