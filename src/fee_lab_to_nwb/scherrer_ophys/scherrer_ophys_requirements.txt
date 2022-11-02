@@ -1,3 +1,4 @@
 opencv-python==4.5.5.64
 natsort>=8.2.0
-git+https://github.com/catalystneuro/ndx-extract@d58ed03f9eb26cde360879d1ae6a5e328fe51fa4
+neuroconv[ophys]<=0.2.1
+ndx-extract==0.2.0
