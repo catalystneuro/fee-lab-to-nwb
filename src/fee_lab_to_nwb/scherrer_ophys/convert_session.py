@@ -37,7 +37,7 @@ segmentation_data_file_path = ophys_folder_path / "extract_output.mat"
 # The NWB file path should be adjacent to the behavior movie file
 nwbfile_path = behavior_movie_file_path.parent / f"{ophys_folder_path.stem}_{ophys_dataset_timestamp}.nwb"
 
-metadata_path = Path(__file__).parent / "scherrer_ophys_metadata.yml"
+metadata_path = Path(__file__).parent / "metadata.yml"
 metadata_from_yaml = load_dict_from_file(metadata_path)
 
 source_data = dict(
