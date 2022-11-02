@@ -3,6 +3,8 @@ NWBFile:
   lab: Fee Lab
   experimenter:
     - Happ, Michael
+Subject:
+   species: Taeniopygia guttata # the species of the experimental subject in latin binomial form
 Behavior:
   Audio:
     - name: AcousticWaveformSeries

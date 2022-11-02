@@ -15,6 +15,13 @@
 ### Features
 * The `ScherrerOphysSegmentationInterface` is modified to write the configurations
   from EXTRACT segmentation to the NWB File. [PR #42](https://github.com/catalystneuro/fee-lab-to-nwb/pull/42)
+* Created utility methods for processing the syllables duration and stimulus notes from
+  the provided 'Neuropixels_Dataset_Log.xlsx'. The mapping of syllables and motifs is extracted
+  from the "motif_syllable_mapping" sheet which contains for each motif the syllable name,
+  its duration and the duration of silence after the syllable. The file is added to the repository,
+  since it has been corrected for incorrect stimulus dates that did not match the dates in the "session repository"
+  sheet. The `NWBFile` metadata is also updated with a description of the session, and
+  the species of the `Subject` is added to the `metadata.yml` file. [PR #45](https://github.com/catalystneuro/fee-lab-to-nwb/pull/45)
 * The `MotifInterface` is modified to add the timings of syllables along with the motifs.
   The motifs are added to the trials table and is a `HierarchicalBehavioralTable` where the
   lowest hierarchical level is the level of syllables. [PR #34](https://github.com/catalystneuro/fee-lab-to-nwb/pull/34)
