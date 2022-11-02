@@ -1,1 +1,2 @@
 ndx-sound
+openpyxl==3.0.10
