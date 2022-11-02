@@ -9,6 +9,7 @@
   that contains the Audio and SpikeGLX timestamps. This file is used for synchronizing
   the motif timestamps. [PR #33](https://github.com/catalystneuro/fee-lab-to-nwb/pull/33)
 * Adjusted `session_start_time` for ophys to reference the first time entry from imaging timestamps. [PR #43](https://github.com/catalystneuro/fee-lab-to-nwb/pull/43)
+* Renamed conversion specific files to have generic names. [PR #46](https://github.com/catalystneuro/fee-lab-to-nwb/pull/46)
 
 ### Features
 * The `ScherrerOphysSegmentationInterface` is modified to write the configurations
