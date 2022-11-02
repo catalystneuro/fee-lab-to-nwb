@@ -1,4 +1,3 @@
-import re
 from typing import Optional
 
 import numpy as np
@@ -9,12 +8,6 @@ from neuroconv.basedatainterface import BaseDataInterface
 from pynwb import NWBFile
 from pynwb.epoch import TimeIntervals
 from scipy.io import loadmat
-
-
-def check_syllable_name(value_from_excel, value_to_check):
-    matched_pattern = re.findall(pattern="(\d+)([a-zA-Z]+)", string=value_from_excel)[0]
-
-    return value_to_check in [f"{matched_pattern[1]}{matched_pattern[0]}", f"{matched_pattern[0]}{matched_pattern[1]}"]
 
 
 class MotifInterface(BaseDataInterface):
@@ -94,9 +87,7 @@ class MotifInterface(BaseDataInterface):
                 syllable_start_time = syllable_end_time + syllable["Subsequent Silence (sec)"]
 
         # Create the TimeIntervals for syllables
-        for (syllable_name, (start_time, end_time)) in zip(
-            syllable_names, zip(syllable_start_times, syllable_end_times)
-        ):
+        for syllable_name, start_time, end_time in zip(syllable_names, syllable_start_times, syllable_end_times):
             syllables_table.add_interval(
                 label=syllable_name,
                 start_time=start_time,
@@ -151,11 +142,15 @@ class MotifInterface(BaseDataInterface):
 
         if self.syllable_timestamps is not None:
             syllable_timestamps = self.synchronize_timestamps(timestamps=self.syllable_timestamps)
-            # Assuming that the individual syllables are at the end, but we should test for continuity
             for syllable_name, syllable_start_time in zip(self.syllable_names, syllable_timestamps):
+                # Look up silence duration after syllable onset in the mapping dict
+                is_syllable_in_mapping = self.motif_syllable_mapping["Syllable"].isin(
+                    [syllable_name, syllable_name[::-1]]
+                )
                 syllable_silence_duration = self.motif_syllable_mapping.loc[
-                    self.motif_syllable_mapping["Syllable"].apply(lambda x: check_syllable_name(x, syllable_name))
-                ]["Subsequent Silence (sec)"].values[0]
+                    is_syllable_in_mapping, "Subsequent Silence (sec)"
+                ].values[0]
+                # for missing syllable duration we assume duration of 0.02
                 silence_duration = syllable_silence_duration or 0.02
                 syllables_table.add_interval(
                     label=syllable_name,
