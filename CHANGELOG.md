@@ -2,6 +2,8 @@
 
 ### Fixes
 * Add auditory data to the NWB file as stimulus instead of acquisition. [PR #37](https://github.com/catalystneuro/fee-lab-to-nwb/pull/37)
+* Removed "conversion", "starting_time" and "rate" key pops from TimeSeries metadata schema when
+  constructing the metadata schema for `AudioInterface`. [PR #49](https://github.com/catalystneuro/fee-lab-to-nwb/pull/49)
 
 ### Improvements
 * Create file for tracking changes. [PR #36](https://github.com/catalystneuro/fee-lab-to-nwb/pull/36)
@@ -14,9 +16,15 @@
 ### Features
 * The `ScherrerOphysSegmentationInterface` is modified to write the configurations
   from EXTRACT segmentation to the NWB File. [PR #42](https://github.com/catalystneuro/fee-lab-to-nwb/pull/42)
+* The `MotifInterface` is modified to add the timings of syllables along with the motifs.
+  The motifs are added to the trials table and is a `HierarchicalBehavioralTable` where the
+  lowest hierarchical level is the level of syllables. [PR #34](https://github.com/catalystneuro/fee-lab-to-nwb/pull/34)
 
 ### Testing
 * Added auto-detector workflow for CHANGELOG.md updates. [PR #41](https://github.com/catalystneuro/fee-lab-to-nwb/pull/41)
+
+### Documentation
+* Added a note about running the conversion scripts when the package was installed from `pip`. [PR #48](https://github.com/catalystneuro/fee-lab-to-nwb/pull/48)
 
 # v1.0.0
 

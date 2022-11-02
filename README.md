@@ -101,3 +101,10 @@ You can run a specific conversion with the following command:
 ```
 python src/fee_lab_to_nwb/scherrer_ophys/convert_session.py
 ```
+Note that when installing `fee-lab-to-nwb` from `pip` the conversion script will be located
+wherever `pip` installs site packages. In this case you will need to manually copy/paste usage scripts
+to a location where you want to use them.
+
+## Questions during a conversion
+If you encounter any problems during the conversion, [open an issue](https://github.com/catalystneuro/fee-lab-to-nwb/issues/new), and we will
+help you!
