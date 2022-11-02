@@ -1,21 +1,40 @@
 """Primary script to run to convert an entire session of data using the NWBConverter."""
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from neuroconv.utils import dict_deep_update, load_dict_from_file
 
 from fee_lab_to_nwb.happ_ecephys import HappEcephysNWBConverter
+from fee_lab_to_nwb.happ_ecephys.utils import get_motif_syllables_table_for_session_date
 
 # The base folder path for the SpikeGLX data
 ecephys_dataset_path = Path("D:/Neuropixel")
 
-# Point to the various files for the conversion
-session_id = "7635"  # "9060"
-session_date = "210729"  # YYMMDD
-session_name = f"{session_id}_{session_date}_LH_NCM_g0"
-experiment_folder = ecephys_dataset_path / session_name
+# The name of the session
+session_name = "7635_210729_LH_NCM"
+subject_id, session_date, hemisphere, region = session_name.split("_")
+hemisphere_readable = "left hemisphere" if "LH" in hemisphere else "right hemisphere"
+experiment_folder = ecephys_dataset_path / f"{session_name}_g0"
+# Provide a description for this session
+session_description = (
+    "Effect of habituation contra deviant stimuli over "
+    f"the {hemisphere_readable} of Caudomedial Nidopallium ({region}) region."
+)
+
+# The filepath to the Neuropixels Dataset Log
+ecephys_dataset_log_path = Path(__file__).parent / "Neuropixels_Dataset_Log.xlsx"
+# The mapping between motifs and syllables
+motif_syllables_table = get_motif_syllables_table_for_session_date(
+    file_path=ecephys_dataset_log_path,
+    session_date=session_date,
+)
+# Add a description for this experiment type
+experiment_description = "no description"
+if "Stim Notes" in motif_syllables_table:
+    experiment_description = motif_syllables_table["Stim Notes"].drop_duplicates().values[0]
 
 # The file path to the .ap.bin file
-raw_file_path = experiment_folder / f"{session_name}_imec0" / f"{session_name}_t0.imec0.ap.bin"
+raw_file_path = experiment_folder / f"{session_name}_g0_imec0" / f"{session_name}_g0_t0.imec0.ap.bin"
 # The file path to the .lf.bin file
 lfp_file_path = raw_file_path.parent / raw_file_path.name.replace("ap", "lf")
 # The folder path to Phy sorting output
@@ -32,12 +51,16 @@ source_data = dict(
     SpikeGLXRecording=dict(file_path=str(raw_file_path)),
     SpikeGLXLFP=dict(file_path=str(lfp_file_path)),
     Sorting=dict(folder_path=str(raw_file_path.parent)),
-    Motif=dict(file_path=str(motif_file_path), sync_file_path=str(sync_file_path)),
+    Motif=dict(
+        file_path=str(motif_file_path),
+        sync_file_path=str(sync_file_path),
+        motif_syllable_mapping=motif_syllables_table.to_dict(),
+    ),
     Audio=dict(file_path=str(audio_file_path)),
 )
 
 # The file path to the NWB file
-nwbfile_path = f"/Volumes/t7-ssd/7635_210729_LH_NCM_g0/{session_name}.nwb"
+nwbfile_path = f"{experiment_folder}/{session_name}.nwb"
 
 # The metadata file path
 metadata_path = Path(__file__).parent / "metadata.yml"
@@ -50,6 +73,23 @@ converter = HappEcephysNWBConverter(source_data=source_data)
 metadata = converter.get_metadata()
 # This metadata can be updated with other relevant metadata
 metadata = dict_deep_update(metadata, metadata_from_yaml)
+
+# Add subject_id to Subject metadata
+metadata["Subject"].update(
+    subject_id=subject_id,
+)
+
+# Add timezone information to session_start_time if missing
+session_start_time = metadata["NWBFile"]["session_start_time"]
+if not session_start_time.tzinfo:
+    metadata["NWBFile"].update(
+        session_start_time=session_start_time.replace(tzinfo=ZoneInfo("US/Eastern")),
+    )
+# Add metadata to NWBFile
+metadata["NWBFile"].update(
+    session_description=session_description,
+    experiment_description=experiment_description,
+)
 
 # For fast conversion enable stub_test
 # To convert the entire session use iterator_type="v2" for the SpikeGLX data
