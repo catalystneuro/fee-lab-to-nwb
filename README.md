@@ -20,7 +20,7 @@ following:
 ```
 git clone https://github.com/catalystneuro/fee-lab-to-nwb
 cd fee-lab-to-nwb
-conda env create --file make_env.yml
+conda env create --file make_conda_env.yml
 conda activate fee_lab_to_nwb_env
 ```
 
