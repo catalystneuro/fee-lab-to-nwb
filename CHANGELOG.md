@@ -20,6 +20,9 @@
 ### Testing
 * Added auto-detector workflow for CHANGELOG.md updates. [PR #41](https://github.com/catalystneuro/fee-lab-to-nwb/pull/41)
 
+### Documentation
+* Added a note about running the conversion scripts when the package was installed from `pip`. [PR #48](https://github.com/catalystneuro/fee-lab-to-nwb/pull/48)
+
 # v1.0.0
 
 * The first release of fee-lab-to-nwb. [PR #31](https://github.com/catalystneuro/fee-lab-to-nwb/pull/31)
