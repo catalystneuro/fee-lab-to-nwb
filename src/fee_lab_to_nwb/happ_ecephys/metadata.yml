@@ -7,5 +7,5 @@ Subject:
    species: Taeniopygia guttata # the species of the experimental subject in latin binomial form
 Behavior:
   Audio:
-    - name: AcousticWaveformSeries
+    - name: "Audio: micData_210729"
       description: Audio recording of a songbird.
