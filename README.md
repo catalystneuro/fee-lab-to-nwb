@@ -62,7 +62,7 @@ Each conversion is organized in a directory of its own in the `src` directory:
     ├── setup.py
     └── src
         ├── fee_lab_to_nwb
-        │   ├── general_interfaces
+        │   ├── happ_ecephys
         │   └── scherrer_ophys
         │       ├── convert_session.py
         │       ├── metadata.yml
