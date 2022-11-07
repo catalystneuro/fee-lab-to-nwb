@@ -56,7 +56,7 @@ source_data = dict(
         sync_file_path=str(sync_file_path),
         motif_syllable_mapping=motif_syllables_table.to_dict(),
     ),
-    Audio=dict(file_path=str(audio_file_path)),
+    Audio=dict(file_paths=[audio_file_path]),
 )
 
 # The file path to the NWB file
