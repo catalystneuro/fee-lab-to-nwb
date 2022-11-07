@@ -28,6 +28,7 @@
 * The `MotifInterface` is modified to add the timings of syllables along with the motifs.
   The motifs are added to the trials table and is a `HierarchicalBehavioralTable` where the
   lowest hierarchical level is the level of syllables. [PR #34](https://github.com/catalystneuro/fee-lab-to-nwb/pull/34)
+* Switched to using `AudioInterface` from NeuroConv. [PR #53](https://github.com/catalystneuro/fee-lab-to-nwb/pull/53)
 
 ### Testing
 * Added auto-detector workflow for CHANGELOG.md updates. [PR #41](https://github.com/catalystneuro/fee-lab-to-nwb/pull/41)
