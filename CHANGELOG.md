@@ -32,8 +32,10 @@
 ### Testing
 * Added auto-detector workflow for CHANGELOG.md updates. [PR #41](https://github.com/catalystneuro/fee-lab-to-nwb/pull/41)
 
-### Documentation
+### Documentation and visualization
 * Added a note about running the conversion scripts when the package was installed from `pip`. [PR #48](https://github.com/catalystneuro/fee-lab-to-nwb/pull/48)
+* Added a custom widget that combines the visualisation of the waveform and spectrogram of the sound with the motifs/syllables table.
+  The widget also includes the play button for the audio. The tutorial is in `happ_ecephys/widgets/notes.md` [PR #54](https://github.com/catalystneuro/fee-lab-to-nwb/pull/54)
 
 # v1.0.0
 
