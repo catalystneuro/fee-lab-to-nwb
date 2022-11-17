@@ -1,6 +1,5 @@
 """Primary script to run to convert an entire session of data using the NWBConverter."""
 from pathlib import Path
-from datetime import datetime
 from zoneinfo import ZoneInfo
 
 from natsort import natsorted
