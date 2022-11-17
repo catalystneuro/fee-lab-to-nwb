@@ -5,6 +5,8 @@
 * Removed "conversion", "starting_time" and "rate" key pops from TimeSeries metadata schema when
   constructing the metadata schema for `AudioInterface`. [PR #49](https://github.com/catalystneuro/fee-lab-to-nwb/pull/49)
 * Bumped `neuroconv` version to 0.2.2. [PR #52](https://github.com/catalystneuro/fee-lab-to-nwb/pull/52)
+* Override get_image_masks from SegmentationExtractor to be faster when the image masks
+  for all the ROIs are requested. [PR #55](https://github.com/catalystneuro/fee-lab-to-nwb/pull/55)
 
 ### Improvements
 * Create file for tracking changes. [PR #36](https://github.com/catalystneuro/fee-lab-to-nwb/pull/36)
