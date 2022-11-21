@@ -1,3 +1,4 @@
-neuroconv[spikeglx,phy,audio]==0.2.2
+neuroconv[spikeglx,phy]==0.2.2
 openpyxl==3.0.10
 ndx-hierarchical-behavioral-data>=0.1.1
+ndx_sound>=0.2.0
