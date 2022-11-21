@@ -9,9 +9,11 @@ from neuroconv.utils import (
     calculate_regular_series_rate,
 )
 from pynwb import NWBFile
-from roiextractors import ExtractSegmentationExtractor
 from ndx_extract import EXTRACTSegmentation
 
+from fee_lab_to_nwb.scherrer_ophys.scherrerophyssegmentationextractor import (
+    ScherrerOphysSegmentationExtractor,
+)
 from fee_lab_to_nwb.scherrer_ophys.utils import (
     get_timestamps_from_csv,
     shift_timestamps_to_start_from_zero,
@@ -21,7 +23,7 @@ from fee_lab_to_nwb.scherrer_ophys.utils import (
 class ScherrerOphysSegmentationInterface(ExtractSegmentationInterface):
     """Data interface for ExtractSegmentationExtractor."""
 
-    Extractor = ExtractSegmentationExtractor
+    Extractor = ScherrerOphysSegmentationExtractor
 
     def __init__(
         self,
@@ -101,6 +103,7 @@ class ScherrerOphysSegmentationInterface(ExtractSegmentationInterface):
         stub_test: bool = False,
         stub_frames: int = 100,
         include_roi_centroids: bool = True,
+        include_roi_acceptance: bool = True,
         mask_type: Optional[str] = "image",
         iterator_options: Optional[dict] = None,
         compression_options: Optional[dict] = None,
@@ -116,6 +119,7 @@ class ScherrerOphysSegmentationInterface(ExtractSegmentationInterface):
             stub_test=stub_test,
             stub_frames=stub_frames,
             include_roi_centroids=include_roi_centroids,
+            include_roi_acceptance=include_roi_acceptance,
             mask_type=mask_type,
             iterator_options=iterator_options,
             compression_options=compression_options,
