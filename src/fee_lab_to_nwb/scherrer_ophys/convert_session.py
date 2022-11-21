@@ -1,6 +1,5 @@
 """Primary script to run to convert an entire session of data using the NWBConverter."""
 from pathlib import Path
-from datetime import datetime
 from zoneinfo import ZoneInfo
 
 from natsort import natsorted
@@ -63,7 +62,8 @@ unadjusted_timestamps = shift_timestamps_to_start_from_zero(timestamps=behavior_
 adjusted_timestamps = list(unadjusted_timestamps + offset_in_seconds)
 
 conversion_options = dict(
-    Movie=dict(external_mode=True, timestamps=adjusted_timestamps),
+    Movie=dict(external_mode=True, timestamps=adjusted_timestamps, starting_times=[adjusted_timestamps[0]]),
+    Segmentation=dict(include_roi_acceptance=False),
 )
 
 ophys_dataset_converter = ScherrerOphysNWBConverter(source_data=source_data)
