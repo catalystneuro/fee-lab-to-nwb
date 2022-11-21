@@ -1,5 +1,7 @@
 # Upcoming
 
+# v1.1.0
+
 ### Fixes
 * Add auditory data to the NWB file as stimulus instead of acquisition. [PR #37](https://github.com/catalystneuro/fee-lab-to-nwb/pull/37)
 * Removed "conversion", "starting_time" and "rate" key pops from TimeSeries metadata schema when
@@ -17,6 +19,7 @@
 * Added version pins and utilize minimal dependencies from `neuroconv`. [PR #47](https://github.com/catalystneuro/fee-lab-to-nwb/pull/47)
 * Renamed conversion specific files to have generic names. [PR #46](https://github.com/catalystneuro/fee-lab-to-nwb/pull/46)
 * Updated version pins for requirements. [PR #56](https://github.com/catalystneuro/fee-lab-to-nwb/pull/56)
+* Changed package version to 1.1.0. [PR #57](https://github.com/catalystneuro/fee-lab-to-nwb/pull/57)
 
 ### Features
 * The `ScherrerOphysSegmentationInterface` is modified to write the configurations
