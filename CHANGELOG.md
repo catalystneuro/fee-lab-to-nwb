@@ -17,6 +17,7 @@
 * Added version pins and utilize minimal dependencies from `neuroconv`. [PR #47](https://github.com/catalystneuro/fee-lab-to-nwb/pull/47)
 * Renamed conversion specific files to have generic names. [PR #46](https://github.com/catalystneuro/fee-lab-to-nwb/pull/46)
 * Updated version pins for requirements. [PR #56](https://github.com/catalystneuro/fee-lab-to-nwb/pull/56)
+* Changed package version to 1.1.0. [PR #57](https://github.com/catalystneuro/fee-lab-to-nwb/pull/57)
 
 ### Features
 * The `ScherrerOphysSegmentationInterface` is modified to write the configurations
