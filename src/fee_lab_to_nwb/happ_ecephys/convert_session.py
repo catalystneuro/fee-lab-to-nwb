@@ -92,7 +92,6 @@ metadata["NWBFile"].update(
 )
 
 # For fast conversion enable stub_test
-# To convert the entire session use iterator_type="v2" for the SpikeGLX data
 conversion_options = dict(
     SpikeGLXRecording=dict(
         stub_test=True,
