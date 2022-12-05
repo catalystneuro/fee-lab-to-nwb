@@ -91,7 +91,7 @@ metadata["NWBFile"].update(
     experiment_description=experiment_description,
 )
 
-# For fast conversion enable stub_test
+# For a fast check that everything is working, enable stub_test
 conversion_options = dict(
     SpikeGLXRecording=dict(
         stub_test=True,
