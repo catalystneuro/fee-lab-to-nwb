@@ -139,7 +139,6 @@ class MotifSoundCombinedWidget(AbstractTraceWidget):
                 table["stop_time"],
                 table["label"],
             ):
-
                 # if event is out of bounds, skip it
                 if t_start is not None and stop_time < t_start:
                     continue

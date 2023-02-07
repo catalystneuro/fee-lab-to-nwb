@@ -128,7 +128,6 @@ class MotifInterface(BaseDataInterface):
         nwbfile: NWBFile,
         metadata: Optional[dict] = None,
     ):
-
         # Synchronize the timestamps of motifs with the SpikeGLX timestamps
         motif_timestamps = self.synchronize_timestamps(timestamps=self.motif_timestamps)
 

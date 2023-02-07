@@ -49,7 +49,6 @@ class AudioInterface(BaseDataInterface):
         iterator_options: Optional[dict] = None,
         compression_options: Optional[dict] = None,
     ):
-
         audio_metadata = metadata["Behavior"]["Audio"][0]
         # Early return if acoustic waveform series already exists in the NWB file
         if audio_metadata["name"] in nwbfile.stimulus:
@@ -94,7 +93,6 @@ class AudioInterface(BaseDataInterface):
         iterator_options: Optional[dict] = None,
         compression_options: Optional[dict] = None,
     ):
-
         self.add_acoustic_waveform_series(
             nwbfile=nwbfile,
             metadata=metadata,
