@@ -31,7 +31,6 @@ class ScherrerOphysSegmentationInterface(ExtractSegmentationInterface):
         timestamps_file_path: FilePathType,
         output_struct_name: str = "exOut",
     ):
-
         super().__init__(
             file_path=file_path,
             sampling_frequency=30.0,
@@ -108,7 +107,6 @@ class ScherrerOphysSegmentationInterface(ExtractSegmentationInterface):
         iterator_options: Optional[dict] = None,
         compression_options: Optional[dict] = None,
     ):
-
         self.add_image_segmentation(nwbfile=nwbfile, metadata=metadata)
 
         super().run_conversion(
